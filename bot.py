@@ -11,12 +11,7 @@ import os
 
 print("Bot loading token from file TOKEN [0%]", end = "\r")
 
-if os.path.isfile("TOKEN"): 
-	TOKEN = open(str("TOKEN"), "r")
-	print("Bot loading token from file TOKEN [50%]", end = "\r")
-	TOKEN = str(TOKEN.readline())
-	print("Bot loaded token from file TOKEN [100%]", end = "\n")
-else:
+def Setup():
 	print("Loading failed, file does not exist.   ")
 	TOKEN = input("Please enter the bot token. ")
 	with open("TOKEN", "w") as Writer:
@@ -24,14 +19,23 @@ else:
 		Writer.close()
 		print("Token saved, if your bot is on GitHub, it is strongly advised to add \"TOKEN\" to your gitnore. This will reduce the pssibility of your bot being hyjacked / stolen.")
 		if os.path.isfile(".gitignore"):
-			if input("Add to gitnore? [Y/N]") == "y" or "Y":
-				with open("Owners.txt", "a") as f:
-						f.write(str(user) + "\n")
+			if input("Add to gitnore? [Y/N] ") == "y" or "Y":
+				with open(".gitignore", "a") as f:
+						f.write("\n" + "TOKEN")
 						f.close()
 			else:
 				print("Response was not equal to \"y\" or \"Y\". Assuming no and continuing without adding to gitnore file.")
 		else:
 			print("No gitnore file found, you may have to manually add \"TOKEN\" to your gitnore should one exist.")
+	return TOKEN
+
+if os.path.isfile("TOKEN"): 
+	TOKEN = open(str("TOKEN"), "r")
+	print("Bot loading token from file TOKEN [50%]", end = "\r")
+	TOKEN = str(TOKEN.readline())
+	print("Bot loaded token from file TOKEN [100%]", end = "\n")
+else:
+	TOKEN = Setup()
 
 print("Bot loading  [0%]", end = "\r")
 
