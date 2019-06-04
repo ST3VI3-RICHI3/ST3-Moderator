@@ -17,7 +17,7 @@ if os.path.isfile("TOKEN"):
 	TOKEN = str(TOKEN.readline())
 	print("Bot loaded token from file TOKEN [100%]", end = "\n")
 else:
-	print("Loading failed, file does not exist.")
+	print("Loading failed, file does not exist.   ")
 	TOKEN = input("Please enter the bot token.")
 	with open("TOKEN" "w") as Writer:
 		Writer.write(TOKEN)
