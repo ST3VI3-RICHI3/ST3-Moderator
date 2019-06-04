@@ -18,8 +18,8 @@ if os.path.isfile("TOKEN"):
 	print("Bot loaded token from file TOKEN [100%]", end = "\n")
 else:
 	print("Loading failed, file does not exist.   ")
-	TOKEN = input("Please enter the bot token.")
-	with open("TOKEN" "w") as Writer:
+	TOKEN = input("Please enter the bot token. ")
+	with open("TOKEN", "w") as Writer:
 		Writer.write(TOKEN)
 		Writer.close()
 		print("Token saved, if your bot is on GitHub, it is strongly advised to add \"TOKEN\" to your gitnore. This will reduce the pssibility of your bot being hyjacked / stolen.")
