@@ -29,6 +29,12 @@ def Setup():
 			print("No gitnore file found, you may have to manually add \"TOKEN\" to your gitnore should one exist.")
 	return TOKEN
 
+prefix = "//"
+if os.path.isfile("config.cfg"):
+	with open("config.cfg", "r") as f:
+		prefix = str(f.read())[9:-1]
+		f.close()
+
 if os.path.isfile("TOKEN"): 
 	TOKEN = open(str("TOKEN"), "r")
 	print("Bot loading token from file TOKEN [50%]", end = "\r")
@@ -47,12 +53,12 @@ with open("Owners.txt", "r") as f:
 	f.close()
 
 print("Bot loading [50%]", end = "\r")
-bot = commands.Bot(command_prefix='//')# This sets the prefix that the bot will use.
+bot = commands.Bot(command_prefix=prefix)# This sets the prefix that the bot will use.
 client = bot
 bot.remove_command('help') #Removes the default discord help command
 @bot.event
 async def on_ready():
-	await bot.change_presence(game=discord.Game(name="//help"), status=discord.Status("online"), afk=False)
+	await bot.change_presence(game=discord.Game(name= str(prefix) + "help"), status=discord.Status("online"), afk=False)
 	print("Bot loaded [100%]")
 	print("Bot running.")
 
@@ -63,7 +69,14 @@ async def help(ctx):
 @bot.command(pass_context = True)
 async def Config(ctx, File: str, Property: str, Value: str):
 	if str(ctx.message.author) == Sudo_owner:
-		print("Not implemented")
+		"""with open(File, "r+") as f:
+			i = 0
+			while i != len(f.readlines()):
+				f.seek(i)
+				if str(f.read())[len(Property)] == Property:
+					await bot.say("Debug: pos = " + str(i))
+				i += 1"""
+		await bot.say("Not implemented.")
 	else:
 		await bot.say(":warning: Warning: <@" + ctx.message.author.id + "> has insufficient permissions to configure the bot. :warning:")
 
