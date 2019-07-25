@@ -30,10 +30,14 @@ def Setup():
 	return TOKEN
 
 prefix = "//"
-if os.path.isfile("config.cfg"):
-	with open("config.cfg", "r") as f:
+if os.path.isfile("Resource/config.cfg"):
+	with open("Resource/config.cfg", "r") as f:
 		prefix = str(f.read())[9:-1]
 		f.close()
+else:
+	with open("Resource/config.cfg", "w") as Writer:
+		Wirter.write("prefix = " + prefix)
+		Wirter.close()
 
 if os.path.isfile("TOKEN"): 
 	TOKEN = open(str("TOKEN"), "r")
