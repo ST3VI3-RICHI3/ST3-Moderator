@@ -2,3 +2,6 @@
 
 ST3-Moderator is a discord bot programmed by @ST3VI3 RICHI3#5015, the bot was created with moderation in mind.
 The current version of the bot is not the first write. ST3-Moderator had a previous life in whitch it ran 24/7. The previous bot died due to hard drive faliure. This bot, hopefully, will not fail in the same way.
+
+
+The bot aims to ease discord server moderation. This will be achived by not only alowing customisation (from repository, not custom) but providing utilities such as spam protection, timed user mutes, etc.
