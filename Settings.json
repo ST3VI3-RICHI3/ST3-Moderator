@@ -1,0 +1,14 @@
+{
+    "Saved_Data": {
+        "Token": null
+    },
+    "Bot_Settings": {
+        "Help": {
+            "Send_To_DM": true
+        }
+    },
+    "Info": {
+        "Settings_Version": "0.0.4",
+        "Bot_Version": "DEV-REWRITE-0003"
+    }
+}
