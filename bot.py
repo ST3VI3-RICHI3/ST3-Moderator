@@ -222,7 +222,7 @@ async def restart(ctx):
 		await msg.delete()
 
 @bot.command()
-async def shutdown(ctx):
+async def update(ctx):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
