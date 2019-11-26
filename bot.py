@@ -133,6 +133,21 @@ async def randomPresanceChange():
 		await bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 		await randomPresanceChange()
 
+@client.event
+async def on_message(message):
+	if message.author.id != bot.user.id:
+		if len(message.content) >= 6:
+			if message.content[0:5] == "urban":
+				query = "https://www.urbandictionary.com/define.php?term="
+				for char in message.content[6:len(message.content)]:
+					if char == " ":
+						query = query + "+"
+					else:
+						query = query + char
+				await message.channel.send(query)
+
+	await bot.process_commands(message)
+
 @bot.command()
 async def help(ctx):
 	DM = False
