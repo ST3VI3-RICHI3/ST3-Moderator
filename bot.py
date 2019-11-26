@@ -123,7 +123,7 @@ async def on_ready():
 	print("Bot running.")
 	await randomPresanceChange()
 
-rand_watching = ['for' + prefix, 'Dead By Daylight', 'the server', 'YouTube', 'Dark Souls Remastered', 'for //help', 'commands', 'for messages starting with \'//\'']
+rand_watching = ['for' + prefix, 'Dead By Daylight', 'the server', 'YouTube', 'Dark Souls Remastered', 'for //help', 'commands', 'for messages starting with \'//\'', 'for urban', 'for you']
 
 async def randomPresanceChange():
 	global presance_overridden
@@ -137,7 +137,7 @@ async def randomPresanceChange():
 async def on_message(message):
 	if message.author.id != bot.user.id:
 		if len(message.content) >= 6:
-			if message.content[0:5] == "urban":
+			if message.content.lower()[0:5] == "urban":
 				query = "https://www.urbandictionary.com/define.php?term="
 				for char in message.content[6:len(message.content)]:
 					if char == " ":
