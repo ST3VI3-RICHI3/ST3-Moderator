@@ -11,7 +11,7 @@ import random
 
 #--Funcs--#
 
-def DBUpdate(Database):
+def DBUpdate(Database): #Not currently used with any bot features.
 	with open("DB.json", "w") as f:
 		json.dump(Database, f, indent = 4)
 
