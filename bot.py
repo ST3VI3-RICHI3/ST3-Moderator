@@ -224,7 +224,7 @@ async def restart(ctx):
 	if str(ctx.message.author.id) == devs:
 		stopping = True
 		print("Restarting")
-		await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.streaming), status=discord.Status.do_not_disturb, afk=False)
+		await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 		try:
 			await ctx.message.delete()
 		except:
@@ -241,12 +241,14 @@ async def update(ctx):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
+		await bot.change_presence(activity=discord.Activity(name="bot updating...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 		print("performing update procedure...")
 		try:
 			await ctx.message.delete()
 		except:
 			null = None
 		os.system("git pull")
+		print("Update complete, restarting.")
 		os.system("bot.py")
 		exit(0)
 	else:
@@ -259,6 +261,7 @@ async def shutdown(ctx):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
+		await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 		print("shutting down")
 		try:
 			await ctx.message.delete()
