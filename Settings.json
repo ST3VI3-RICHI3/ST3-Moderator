@@ -3,12 +3,15 @@
         "Token": null
     },
     "Bot_Settings": {
+        "No_Command": {
+            "Prefix": "//"
+        },
         "Help": {
             "Send_To_DM": true
         }
     },
     "Info": {
-        "Settings_Version": "0.0.4",
-        "Bot_Version": "DEV-REWRITE-0003"
+        "Settings_Version": "0.0.5",
+        "Bot_Version": "DEV-REWRITE-0004"
     }
 }

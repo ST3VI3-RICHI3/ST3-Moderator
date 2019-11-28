@@ -38,9 +38,6 @@ prefix = "//"
 
 global Version
 
-bot = commands.Bot(command_prefix=prefix)
-client = bot
-
 #--------#
 
 #--Init--#
@@ -52,8 +49,9 @@ if os.path.isfile("Settings.json"):
 	Info = Settings['Info']
 	SavedData = Settings['Saved_Data']
 	SV = Info['Settings_Version']
+	Bot_Settings = Settings['Bot_Settings']
 	Version = Info["Bot_Version"]
-	if SV == "0.0.4":
+	if SV == "0.0.5":
 		if SavedData['Token'] != None:
 			_TOKEN = SavedData['Token']
 		elif os.path.isfile("TOKEN"):
@@ -65,6 +63,9 @@ if os.path.isfile("Settings.json"):
 			SavedData['Token'] = _TOKEN
 			with open("Settings.json", "w") as f:
 				json.dump(Settings, f, indent = 4)
+		NoCommandSettings = Bot_Settings['No_Command']
+		if NoCommandSettings["Prefix"] != None:
+			prefix = NoCommandSettings["Prefix"] #This allows custom prefixes.
 	else:
 		print("Error.\nSettings are outdated, please make sure you have the newest version before running.")
 		print("For the newest version of the Settings file please contact the developer ( \"ST3VI3 RICHI3#5015\" )")
@@ -79,17 +80,23 @@ else:
 			"Token": null
 		},
 		"Bot_Settings": {
+			"No_Command": {
+				"Prefix": "//"
+			},
 			"Help": {
 				"Send_To_DM": true
 			}
 		},
 		"Info": {
-			"Settings_Version": "0.0.4",
-			"Bot_Version": "0.0.1"
+			"Settings_Version": "0.0.5",
+			"Bot_Version": "DEV-REWRITE-0004"
 		}
 	}"""
 	with open("Settings.json", "w") as f:
 		json.dump(Settings_Prefab, f, indent = 4)
+
+bot = commands.Bot(command_prefix=prefix)
+client = bot
 
 if os.path.isfile("DB.json"):
 	with open("DB.json", "r") as DBFile:
@@ -128,10 +135,10 @@ rand_watching = ['for' + prefix, 'Dead By Daylight', 'the server', 'YouTube', 'D
 async def randomPresanceChange():
 	global presance_overridden
 	global stopping
-	await asyncio.sleep(60)
-	if not stopping and not presance_overridden:
-		await bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-		await randomPresanceChange()
+	while not stopping and not presance_overridden:
+		await asyncio.sleep(60)
+		if not stopping and not presance_overridden:
+			await bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 
 @client.event
 async def on_message(message):
@@ -166,17 +173,27 @@ async def help(ctx):
 		DM = True
 	if str(ctx.message.author.id) == devs:
 		embed.add_field(name="test", value="This tests if the bot is running & responsive.", inline=False)
+		embed.add_field(name="config", value="Sets provided property / setting for the bot.", inline=False)
 		embed.add_field(name="update", value="updates the bot to newer code hosted on GutHub.", inline=False)
 		embed.add_field(name="restart", value="restarts the bot, this can also be used to update the bot.", inline=False)
-	await ctx.author.send(embed=embed)
-	if not DM:
-		msg = await ctx.send(":ok_hand: Check your DMs!")
-		await asyncio.sleep(5)
+	Bot_Settings = Settings['Bot_Settings']
+	HelpSettings = Bot_Settings['Help']
+	if HelpSettings['Send_To_DM']:
+		await ctx.author.send(embed=embed)
+		if not DM:
+			msg = await ctx.send(":ok_hand: Check your DMs!")
+			await asyncio.sleep(5)
+			try:
+				await ctx.message.delete()
+			except:
+				DM = True
+			await msg.delete()
+	else:
+		await ctx.send(embed=embed)
 		try:
 			await ctx.message.delete()
 		except:
 			DM = True
-		await msg.delete()
 
 @bot.command()
 async def status(ctx, time, Type, *, Name):
@@ -217,6 +234,64 @@ async def status(ctx, time, Type, *, Name):
 		msg = ctx.send(":x: You do not have the required permissions to run this command.")
 		await asyncio.sleep(5)
 		await msg.delete()
+
+@bot.command(pass_context = True)
+async def config(ctx, module: str = None, property: str = None, value = None, file: str = "Settings.json"):
+	if str(ctx.message.author.id) in devs:
+		global Settings
+		BotSettings = Settings['Bot_Settings']
+		if module == "*":
+			Keys = ""
+			for key in dict(Settings['Bot_Settings']).keys():
+				skey = str(key) + "\n"
+				Keys = Keys + str(skey)
+			await ctx.send("```-----Module list-----\n" + Keys + "```")
+		elif module == None:
+			await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Missing value `module` (arg1).")
+		elif module in BotSettings.keys():
+			BSettings = Settings['Bot_Settings']
+			Module = BSettings[module]
+			if property == None:
+				Keys = ""
+				for key, value in Module.items():
+					skey = str(key) + " = " + str(value) + "\n"
+					Keys = Keys + str(skey)
+				await ctx.send("```-----" + module.capitalize() + " variable list-----\n" + Keys + "```")
+			else:
+				if property in Module.keys():
+					if value == None:
+						await ctx.send("Property `" + property + "` is currently set to `" + str(Module[property]) + "`.")
+					else:
+						if type(Module[property]) == type(value):
+							null = None
+						elif "true" or "false" in value.lower():
+							if "false" in value.lower():
+								value = False
+							else:
+								value = True
+						else:
+							try:
+								value = int(value)
+							except ValueError:
+								try:
+									value = float(value)
+								except:
+									null = None
+						if type(Module[property]) == type(value):
+							Module[property] = value
+							BSettings[module] = Module
+							Settings['Bot_Settings'] = BSettings
+							with open("Settings.json", "w") as f:
+								json.dump(Settings, f, indent=4)
+							await ctx.send("Property updated to \"" + str(value) + "\".")
+						else:
+							await ctx.send(":x: Invalid type: `" + str(type(value)) + "`, should be: `" + str(type(Module[property])) + "`.")
+				else:
+					await ctx.send("Invalid property.")
+		else:
+			await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Invalid module.")
+	else:
+		await ctx.send(":warning:Warning: <@" + str(ctx.message.author.id) + "> has insuficiant permissions to run this command.")
 
 @bot.command()
 async def restart(ctx):
