@@ -166,7 +166,7 @@ async def help(ctx):
 			embed.add_field(name="Whois", value="Gets information about a specific user.", inline=False)
 			embed.add_field(name="addrole", value="Adds a specific role to a given user.", inline=False)
 			embed.add_field(name="removerole", value="Removes a specific role from a given user.", inline=False)
-			embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in, text must be in quotes.", inline=False)
+			embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
 			embed.add_field(name="kick", value="kicks a specific user.", inline=False)
 			embed.add_field(name="ban", value="bans a specific user.", inline=False)
 	except:
@@ -194,6 +194,23 @@ async def help(ctx):
 			await ctx.message.delete()
 		except:
 			DM = True
+
+
+@bot.command()
+async def C_Announce(ctx, *, message = ""):
+	if ctx.message.author.guild_permissions.administrator:
+		if message == "":
+			msg = await ctx.send(":x:Error: Noting to announce.")
+			asyncio.sleep(5)
+			msg.delete()
+		else:
+			await ctx.message.delete()
+			await ctx.send("@everyone Channel announcement: {}".format(message))
+	else:
+		msg = await ctx.send(":warning:WARNING:warning: <@{}> has invalid permissions.".format(ctx.message.author.id))
+		asyncio.sleep(10)
+		ctx.message.delete()
+		msg.delete()
 
 @bot.command()
 async def status(ctx, time, Type, *, Name):
