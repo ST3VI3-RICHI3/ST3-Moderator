@@ -252,7 +252,15 @@ async def status(ctx, time, Type, *, Name):
 		await asyncio.sleep(5)
 		await msg.delete()
 
-@bot.command(pass_context = True)
+@bot.command()
+async def test(ctx):
+	if str(ctx.message.author.id) in devs:
+		msg = await ctx.send(":ok_hand: I am working!")
+		await asyncio.sleep(5)
+		await ctx.message.delete()
+		await msg.delete()
+
+@bot.command()
 async def config(ctx, module: str = None, property: str = None, value = None, file: str = "Settings.json"):
 	if str(ctx.message.author.id) in devs:
 		global Settings
