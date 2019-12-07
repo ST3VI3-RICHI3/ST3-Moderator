@@ -130,7 +130,7 @@ async def on_ready():
 	print("Bot running.")
 	await randomPresanceChange()
 
-rand_watching = ['for' + prefix, 'Dead By Daylight', 'the server', 'YouTube', 'Dark Souls Remastered', 'for //help', 'commands', 'for messages starting with \'//\'', 'for urban', 'for you']
+rand_watching = ['for {}'.format(prefix), 'Dead By Daylight', 'the server', 'YouTube', 'Dark Souls Remastered', 'for {}help'.format(prefix), 'commands', 'for messages starting with \'{}\''.format(prefix), 'for urban', 'for you']
 
 async def randomPresanceChange():
 	global presance_overridden
@@ -158,7 +158,7 @@ async def on_message(message):
 @bot.command()
 async def help(ctx):
 	DM = False
-	embed=discord.Embed(title="Help", description="This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '!', this list only applies to the server you sent the help command in and the roles you have in said server.", color=0x8080ff)
+	embed=discord.Embed(title="Help", description="This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{}', this list only applies to the server you sent the help command in and the roles you have in said server.".format(prefix), color=hex(random.randint(0,16777215)))
 	embed.add_field(name="Help", value="The generic help command, it brings this up.", inline=False)
 	embed.add_field(name="Info", value="Shows the version and changes.", inline=False)
 	try:
@@ -234,7 +234,7 @@ async def status(ctx, time, Type, *, Name):
 		try:
 			await ctx.message.delete()
 		except:
-			null = None
+			print("Was not able to delete status command.")
 		try:
 			time = int(time)
 			await asyncio.sleep(time)
@@ -287,21 +287,20 @@ async def config(ctx, module: str = None, property: str = None, value = None, fi
 					if value == None:
 						await ctx.send("Property `" + property + "` is currently set to `" + str(Module[property]) + "`.")
 					else:
-						if type(Module[property]) == type(value):
-							null = None
-						elif "true" or "false" in value.lower():
-							if "false" in value.lower():
-								value = False
+						if type(Module[property]) != type(value):
+							if "true" or "false" in value.lower():
+								if "false" in value.lower():
+									value = False
+								else:
+									value = True
 							else:
-								value = True
-						else:
-							try:
-								value = int(value)
-							except ValueError:
 								try:
-									value = float(value)
-								except:
-									null = None
+									value = int(value)
+								except ValueError:
+									try:
+										value = float(value)
+									except:
+										null = None
 						if type(Module[property]) == type(value):
 							Module[property] = value
 							BSettings[module] = Module
@@ -328,7 +327,7 @@ async def restart(ctx):
 		try:
 			await ctx.message.delete()
 		except:
-			null = None
+			print("Unable to delete restart command.")
 		os.system("bot.py")
 		exit(0)
 	else:
@@ -346,7 +345,7 @@ async def update(ctx):
 		try:
 			await ctx.message.delete()
 		except:
-			null = None
+			print("Unable to delete stop command.")
 		os.system("git pull")
 		print("Update complete, restarting.")
 		os.system("bot.py")
@@ -366,7 +365,7 @@ async def shutdown(ctx):
 		try:
 			await ctx.message.delete()
 		except:
-			null = None
+			print("Unable to delete shutdown command.")
 		exit(0)
 	else:
 		msg = ctx.send(":x: You do not have the required permissions to run this command.")
