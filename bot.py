@@ -160,15 +160,15 @@ async def help(ctx):
 	DM = False
 	embed=discord.Embed(title="Help", description="This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{}', this list only applies to the server you sent the help command in and the roles you have in said server.".format(prefix), color=hex(random.randint(0,16777215)))
 	embed.add_field(name="Help", value="The generic help command, it brings this up.", inline=False)
-	embed.add_field(name="Info", value="Shows the version and changes.", inline=False)
+	#embed.add_field(name="Info", value="Shows the version and changes.", inline=False)
 	try:
 		if ctx.message.author.guild_permissions.administrator:
 			embed.add_field(name="Whois", value="Gets information about a specific user.", inline=False)
-			embed.add_field(name="addrole", value="Adds a specific role to a given user.", inline=False)
-			embed.add_field(name="removerole", value="Removes a specific role from a given user.", inline=False)
-			embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
-			embed.add_field(name="kick", value="kicks a specific user.", inline=False)
-			embed.add_field(name="ban", value="bans a specific user.", inline=False)
+			#embed.add_field(name="addrole", value="Adds a specific role to a given user.", inline=False)
+			#embed.add_field(name="removerole", value="Removes a specific role from a given user.", inline=False)
+			#embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
+			#embed.add_field(name="kick", value="kicks a specific user.", inline=False)
+			#embed.add_field(name="ban", value="bans a specific user.", inline=False)
 	except:
 		DM = True
 	if str(ctx.message.author.id) == devs:
@@ -176,6 +176,8 @@ async def help(ctx):
 		embed.add_field(name="config", value="Sets provided property / setting for the bot.", inline=False)
 		embed.add_field(name="update", value="updates the bot to newer code hosted on GutHub.", inline=False)
 		embed.add_field(name="restart", value="restarts the bot, this can also be used to update the bot.", inline=False)
+		embed.add_field(name="shutdown", value="causes the bot's script to exit.", inline=False)
+
 	Bot_Settings = Settings['Bot_Settings']
 	HelpSettings = Bot_Settings['Help']
 	if HelpSettings['Send_To_DM']:
@@ -195,6 +197,27 @@ async def help(ctx):
 		except:
 			DM = True
 
+
+@bot.command()
+async def whois(ctx, member: discord.Member = None):
+	if ctx.message.author.guild_permissions.administrator:
+		if member == None:
+			member = ctx.message.author
+		embed=discord.Embed(title="Whois", description="Details of: {} ({})".format(member.name, member.id), color=0x00ff00)
+		embed.set_thumbnail(url=member.avatar_url)
+		embed.add_field(name="Username", value=str(member.name), inline=True)
+		embed.add_field(name="ID", value=str(member.id), inline=True)
+		if member.nick != None:
+			embed.add_field(name="Nickname", value=str(member.nick), inline=True)
+		embed.add_field(name="Status", value=str(member.status), inline=True)
+		embed.add_field(name="Joined server at", value=str(member.joined_at), inline=True)
+		embed.add_field(name="Joined discord at", value=str(member.created_at), inline=True)
+		embed.add_field(name="Highest role", value=str(member.top_role), inline=True)
+		await ctx.send(embed=embed)
+	else:
+		ctx.send(":x: You lack the required permissions to run this command")
+
+	
 
 @bot.command()
 async def C_Announce(ctx, *, message = ""):
@@ -300,7 +323,7 @@ async def config(ctx, module: str = None, property: str = None, value = None, fi
 									try:
 										value = float(value)
 									except:
-										null = None
+										pass
 						if type(Module[property]) == type(value):
 							Module[property] = value
 							BSettings[module] = Module
