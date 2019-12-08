@@ -173,6 +173,7 @@ async def help(ctx):
 		DM = True
 	if str(ctx.message.author.id) == devs:
 		embed.add_field(name="test", value="This tests if the bot is running & responsive.", inline=False)
+		embed.add_field(name="status", value="Sets the bot's playing / watching / listening to status.", inline=False)
 		embed.add_field(name="config", value="Sets provided property / setting for the bot.", inline=False)
 		embed.add_field(name="update", value="updates the bot to newer code hosted on GutHub.", inline=False)
 		embed.add_field(name="restart", value="restarts the bot, this can also be used to update the bot.", inline=False)
