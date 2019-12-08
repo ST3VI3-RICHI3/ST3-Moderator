@@ -200,7 +200,7 @@ async def help(ctx):
 
 @bot.command()
 async def whois(ctx, member: discord.Member = None):
-	if ctx.message.author.guild_permissions.administrator or Member = None or ctx.message.author.id == member.id:
+	if ctx.message.author.guild_permissions.administrator or Member == None or ctx.message.author.id == member.id:
 		if member == None:
 			member = ctx.message.author
 		embed=discord.Embed(title="Whois", description="Details of: {} ({})".format(member.name, member.id), color=0x00ff00)
