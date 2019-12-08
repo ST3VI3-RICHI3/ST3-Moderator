@@ -167,7 +167,7 @@ async def help(ctx):
 			#embed.add_field(name="addrole", value="Adds a specific role to a given user.", inline=False)
 			#embed.add_field(name="removerole", value="Removes a specific role from a given user.", inline=False)
 			embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
-			#embed.add_field(name="kick", value="kicks a specific user.", inline=False)
+			embed.add_field(name="kick", value="kicks a specific user.", inline=False)
 			#embed.add_field(name="ban", value="bans a specific user.", inline=False)
 	except:
 		DM = True
@@ -235,6 +235,21 @@ async def C_Announce(ctx, *, message = ""):
 		asyncio.sleep(10)
 		ctx.message.delete()
 		msg.delete()
+
+@bot.command()
+async def kick(ctx, user: discord.Member = None, *, Reason: str = "No reason provided"):
+	if ctx.message.author.guild_permissions.administrator:
+		if user == None:
+			msg = await ctx.send(":x: Missing arg: `User`")
+			await asyncio.sleep(5)
+			await msg.delete()
+			await ctx.message.delete()
+		else:
+			msg = await ctx.send(":ballot_box_with_check:<@{}> was kicked for: {}".format(user.id, Reason))
+			await user.kick(reason=Reason)
+			await asyncio.sleep(5)
+			await msg.delete()
+			await ctx.message.delete()
 
 @bot.command()
 async def status(ctx, time, Type, *, Name):
