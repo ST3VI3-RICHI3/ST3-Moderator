@@ -158,7 +158,7 @@ async def on_message(message):
 @bot.command()
 async def help(ctx):
 	DM = False
-	embed=discord.Embed(title="Help", description="This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{}', this list only applies to the server you sent the help command in and the roles you have in said server.".format(prefix), color=hex(random.randint(0,16777215)))
+	embed=discord.Embed(title="Help", description="This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{}', this list only applies to the server you sent the help command in and the roles you have in said server.".format(prefix), color=0x8080ff)
 	embed.add_field(name="Help", value="The generic help command, it brings this up.", inline=False)
 	#embed.add_field(name="Info", value="Shows the version and changes.", inline=False)
 	try:
@@ -166,7 +166,7 @@ async def help(ctx):
 			embed.add_field(name="Whois", value="Gets information about a specific user.", inline=False)
 			#embed.add_field(name="addrole", value="Adds a specific role to a given user.", inline=False)
 			#embed.add_field(name="removerole", value="Removes a specific role from a given user.", inline=False)
-			#embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
+			embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
 			#embed.add_field(name="kick", value="kicks a specific user.", inline=False)
 			#embed.add_field(name="ban", value="bans a specific user.", inline=False)
 	except:
@@ -200,7 +200,7 @@ async def help(ctx):
 
 @bot.command()
 async def whois(ctx, member: discord.Member = None):
-	if ctx.message.author.guild_permissions.administrator:
+	if ctx.message.author.guild_permissions.administrator or Member = None or ctx.message.author.id == member.id:
 		if member == None:
 			member = ctx.message.author
 		embed=discord.Embed(title="Whois", description="Details of: {} ({})".format(member.name, member.id), color=0x00ff00)
@@ -215,7 +215,7 @@ async def whois(ctx, member: discord.Member = None):
 		embed.add_field(name="Highest role", value=str(member.top_role), inline=True)
 		await ctx.send(embed=embed)
 	else:
-		ctx.send(":x: You lack the required permissions to run this command")
+		ctx.send(":x: {} You lack the required permissions to run this command".format(ctx.message.author.id))
 
 	
 
