@@ -13,15 +13,31 @@ class Role(commands.Cog):
             if User != None:
                 if Role != None:
                     if func == "add":
-                        User.add_roles(role)
+                        try:
+                            await User.add_roles(role)
+                            msg = await ctx.send(":thumbsup: added role!")
+                            asyncio.sleep(5)
+                            msg.delete()
+                            try:
+                                ctx.message.delete()
+                        except:
+                            ctx.send("There was an error doing that.")
                     elif func == "remove":
-                        User.remove_roles(role)
+                        try:
+                            await User.remove_roles(role)
+                            msg = await ctx.send(":thumbsup: removed role!")
+                            asyncio.sleep(5)
+                            msg.delete()
+                            try:
+                                ctx.message.delete()
+                        except:
+                            ctx.send("There was an error doing that.")
                 else:
-                    ctx.send("Missing or invalid arguement, `func` (Function). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
+                    await ctx.send("Missing or invalid arguement, `func` (Function). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
             else:
-                ctx.send("Missing or invalid arguement, `role` (@Role_To_Act_On). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
+                await ctx.send("Missing or invalid arguement, `role` (@Role_To_Act_On). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
         else:
-            ctx.send("Missing or invalid arguement, `User` (@User_Mention). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
+            await ctx.send("Missing or invalid arguement, `User` (@User_Mention). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
 
 def setup(bot):
     print("[Info] Role commands successfully loaded.")
