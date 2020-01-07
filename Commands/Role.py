@@ -17,25 +17,25 @@ class Role(commands.Cog):
                             await User.add_roles(role)
                             msg = await ctx.send(":thumbsup: added role!")
                             asyncio.sleep(5)
-                            msg.delete()
+                            await msg.delete()
                             try:
-                                ctx.message.delete()
+                                await ctx.message.delete()
                             except:
                                 pass
                         except:
-                            ctx.send("There was an error doing that.")
+                            await ctx.send("There was an error doing that.")
                     elif func == "remove":
                         try:
                             await User.remove_roles(role)
                             msg = await ctx.send(":thumbsup: removed role!")
                             asyncio.sleep(5)
-                            msg.delete()
+                            await msg.delete()
                             try:
-                                ctx.message.delete()
+                                await ctx.message.delete()
                             except:
                                 pass
                         except:
-                            ctx.send("There was an error doing that.")
+                            await ctx.send("There was an error doing that.")
                 else:
                     await ctx.send("Missing or invalid arguement, `func` (Function). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
             else:
