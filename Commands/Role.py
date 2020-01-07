@@ -9,10 +9,10 @@ class Role(commands.Cog):
 
     @commands.command()
     async def role(self, ctx, func = None, User: discord.Member = None, role: discord.role = None):
-		if ctx.message.author.guild_permissions.administrator:
+	if ctx.message.author.guild_permissions.administrator:
 		if User != None:
 			if Role != None:
-    			if func == "add":
+    				if func == "add":
 					User.add_roles(role)
 				elif func == "remove":
 					User.remove_roles(role)
