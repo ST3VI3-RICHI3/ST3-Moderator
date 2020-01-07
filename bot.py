@@ -257,6 +257,8 @@ async def Cog_Reload(ctx, cog):
 						print(f"[Info] reload of \"Commands.{file[:-3]}\"")
 					except:
 						print(f"[Error] Failed to reload cog \"Commands.{file[:-3]}\"")
+			awit ct.send("Reloaded all cogs!")
+			print("[Info] Reload complete!")
 		else:
 			try:
 				print(f"[Info] reloading cog \"{cog}\".")
