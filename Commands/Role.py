@@ -20,6 +20,8 @@ class Role(commands.Cog):
                             msg.delete()
                             try:
                                 ctx.message.delete()
+                            except:
+                                pass
                         except:
                             ctx.send("There was an error doing that.")
                     elif func == "remove":
