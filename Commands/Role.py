@@ -12,7 +12,7 @@ class Role(commands.Cog):
 	if ctx.message.author.guild_permissions.administrator:
 		if User != None:
 			if Role != None:
-    				if func == "add":
+				if func == "add":
 					User.add_roles(role)
 				elif func == "remove":
 					User.remove_roles(role)
