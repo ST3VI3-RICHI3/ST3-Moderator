@@ -8,7 +8,7 @@ class Role(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def role(self, ctx, func = None, User: discord.Member = None, role: discord.role = None):
+    async def role(self, ctx, func = None, User: discord.Member = None, role = None):
         if ctx.message.author.guild_permissions.administrator:
             if User != None:
                 if Role != None:
