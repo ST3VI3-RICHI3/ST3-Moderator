@@ -240,9 +240,15 @@ async def Cog_Load(ctx, cog):
 				print(f"[Info] loading cog \"{cog}\".")
 				bot.load_extension(cog)
 				print(f"[Info] loaded cog \"{cog}\".")
-				await ctx.send("Loaded cog successfully!")
+				await ctx.message.delete()
+				msg = await ctx.send("Loaded cog successfully!")
+				await asyncio.sleep(5)
+				await msg.delete()
 			except:
-				await ctx.send("There was an error loading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await ctx.message.delete()
+				msg = await ctx.send("There was an error loading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await asyncio.sleep(5)
+				await msg.delete()
 
 @bot.command()
 async def Cog_Reload(ctx, cog):
@@ -264,9 +270,15 @@ async def Cog_Reload(ctx, cog):
 				print(f"[Info] reloading cog \"{cog}\".")
 				bot.reload_extension(cog)
 				print(f"[Info] reloaded cog \"{cog}\".")
-				await ctx.send("Reloaded cog successfully!")
+				await ctx.message.delete()
+				msg = await ctx.send("Reloaded cog successfully!")
+				await asyncio.sleep(5)
+				await msg.delete()
 			except:
-				await ctx.send("There was an error Reloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await ctx.message.delete()
+				msg = await ctx.send("There was an error Reloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await asyncio.sleep(5)
+				await msg.delete()
 
 @bot.command()
 async def Cog_Unload(ctx, cog):
@@ -285,9 +297,15 @@ async def Cog_Unload(ctx, cog):
 				print(f"[Info] Unloading cog \"{cog}\".")
 				bot.unload_extension(cog)
 				print(f"[Info] Unloaded cog \"{cog}\".")
-				await ctx.send("Unloaded cog successfully!")
+				await ctx.message.delete()
+				msg = await ctx.send("Unloaded cog successfully!")
+				await asyncio.sleep(5)
+				await msg.delete()
 			except:
-				await ctx.send("There was an error unloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await ctx.message.delete()
+				msg = await ctx.send("There was an error unloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+				await asyncio.sleep(5)
+				await msg.delete()
 
 #------------------------#
 
