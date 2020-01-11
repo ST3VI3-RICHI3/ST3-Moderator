@@ -155,9 +155,9 @@ for file in os.listdir("./Commands"):
 		except:
 			print(f"[Error] Failed to load cog \"Commands.{file[:-3]}\"")
 		Percent += percentinc
-		print(f"\r[Info] Bot loaded [{Percent}%]     ", end="")
+		print(f"\r[Info] Bot loaded [{Percent}%]                         ", end="")
 		time.sleep(0.0625)
-print("\r[Info] Bot loaded [75%]     \r[Info] Bot loaded [75%]", end = "")
+print("\r[Info] Bot loaded [75%]                         \r[Info] Bot loaded [75%]", end = "")
 
 #--------#
 
