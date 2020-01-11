@@ -17,5 +17,4 @@ class Test(commands.Cog):
             await msg.delete()
 
 def setup(bot):
-    print("[Info] Test command successfully loaded.")
     bot.add_cog(Test(bot))

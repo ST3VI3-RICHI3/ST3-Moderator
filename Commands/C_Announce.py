@@ -24,5 +24,4 @@ class C_Announce(commands.Cog):
             msg.delete()
 
 def setup(bot):
-    print("[Info] C_Annonce command successfully loaded.")
     bot.add_cog(C_Announce(bot))

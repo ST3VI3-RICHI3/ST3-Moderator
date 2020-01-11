@@ -12,5 +12,4 @@ class Template(commands.Cog):
         print("This is an example command") #Bot command code goes here.
 
 def setup(bot):
-    print("[Info] Template cog successfully loaded.") #This is a small indicator to show the bot has found the cog.
     bot.add_cog(Template(bot))

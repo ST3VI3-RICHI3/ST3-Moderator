@@ -66,5 +66,4 @@ class Help(commands.Cog):
                 DM = True
 
 def setup(bot):
-    print("[Info] Help command successfully loaded.")
     bot.add_cog(Help(bot))

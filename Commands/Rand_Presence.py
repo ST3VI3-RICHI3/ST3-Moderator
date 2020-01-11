@@ -69,5 +69,4 @@ class Rand_Presence(commands.Cog):
             await msg.delete()
 
 def setup(bot):
-    print("[Info] Random Presance module successfully loaded.") #This is a small indicator to show the bot has found the cog.
     bot.add_cog(Rand_Presence(bot))

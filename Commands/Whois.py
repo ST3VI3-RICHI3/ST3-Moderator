@@ -27,5 +27,4 @@ class Whois(commands.Cog):
             ctx.send(":x: {} You lack the required permissions to run this command".format(ctx.message.author.id))
 
 def setup(bot):
-    print("[Info] Whois command successfully loaded.")
     bot.add_cog(Whois(bot))

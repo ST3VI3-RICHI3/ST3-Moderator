@@ -23,5 +23,4 @@ class Ban(commands.Cog):
                 await ctx.message.delete()
 
 def setup(bot):
-    print("[Info] Ban command successfully loaded.")
     bot.add_cog(Ban(bot))

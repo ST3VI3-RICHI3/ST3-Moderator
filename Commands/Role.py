@@ -35,5 +35,4 @@ class Role(commands.Cog):
         else: await ctx.send("Missing or invalid arguement, `User` (@User_Mention). Usage: " + str(self.bot.command_prefix) + "role {Add / Remove} @User @Role_Name")
 
 def setup(bot):
-    print("[Info] Role commands successfully loaded.")
     bot.add_cog(Role(bot))

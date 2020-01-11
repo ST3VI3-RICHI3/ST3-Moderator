@@ -137,18 +137,45 @@ bot.remove_command('help') #Removes the default discord help command
 
 #--Cogs--#
 
-print("[Info] Loading cogs")
+print("[Info] Gathering cogs", end="")
+Cog_Count = 0
+for file in os.listdir("./Commands"):
+	if file.endswith(".py"):
+		Cog_Count += 1
+		print("\r[Info] Gathering cogs: " + str(Cog_Count), end="")
+		time.sleep(0.0625)
+print("\n[Info] Loading cogs")
+print("[Info] Number of possible cogs found: " + str(Cog_Count))
+percentinc = 25 / Cog_Count
+Percent = 50
 for file in os.listdir("./Commands"):
 	if file.endswith(".py"):
 		try:
 			bot.load_extension(f"Commands.{file[:-3]}")
 		except:
 			print(f"[Error] Failed to load cog \"Commands.{file[:-3]}\"")
-print("\r[Info] Bot loaded [75%]", end = "")
+		Percent += percentinc
+		print(f"\r[Info] Bot loaded [{Percent}%]     ", end="")
+		time.sleep(0.0625)
+print("\r[Info] Bot loaded [75%]     \r[Info] Bot loaded [75%]", end = "")
 
 #--------#
 
-@client.event
+@bot.event
+async def on_command_error(ctx, error):
+	Sverity = "~"
+	if isinstance(error, commands.MissingRequiredArgument): Sverity = "Unimportant"
+	if isinstance(error, commands.BadArgument): Sverity = "Unimportant"
+	if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"
+
+	print("\n--ST3-MODERATOR ERROR HANDLER--")
+	print(f"  Command: {ctx.command}")
+	print(f"  Error: {error}")
+	print(f"  Error type: {str(type(error))[8:-2]}")
+	print(f"  Sverity: {Sverity}")
+	print("-------------------------------\n")
+
+@bot.event
 async def on_message(message):
 	if message.author.id != bot.user.id:
 		if len(message.content) >= 6:
@@ -160,7 +187,6 @@ async def on_message(message):
 					else:
 						query = query + char
 				await message.channel.send(query)
-
 	await bot.process_commands(message)
 
 @bot.command()
@@ -323,7 +349,7 @@ async def restart(ctx):
 		os.system("bot.py")
 		exit(0)
 	else:
-		msg = ctx.send(":x: You do not have the required permissions to run this command.")
+		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 		await asyncio.sleep(5)
 		await msg.delete()
 
@@ -343,7 +369,7 @@ async def update(ctx):
 		os.system("bot.py")
 		exit(0)
 	else:
-		msg = ctx.send(":x: You do not have the required permissions to run this command.")
+		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 		await asyncio.sleep(5)
 		await msg.delete()
 
@@ -360,7 +386,7 @@ async def shutdown(ctx):
 			print("Unable to delete shutdown command.")
 		exit(0)
 	else:
-		msg = ctx.send(":x: You do not have the required permissions to run this command.")
+		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 		await asyncio.sleep(5)
 		await msg.delete()
 

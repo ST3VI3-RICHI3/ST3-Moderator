@@ -23,5 +23,4 @@ class Kick(commands.Cog):
                 await ctx.message.delete()
 
 def setup(bot):
-    print("[Info] Kick command successfully loaded.")
     bot.add_cog(Kick(bot))
