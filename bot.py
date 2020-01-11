@@ -69,10 +69,10 @@ if os.path.isfile("Settings.json"):
 			with open("Settings.json", "w") as f:
 				json.dump(Settings, f, indent = 4)
 		NoCommandSettings = Bot_Settings['No_Command']
-		if os.path.isfile("Prefix_Overide.txt"):
-			with open("Prefix_Overide.txt", "r") as f:
+		if os.path.isfile("Prefix_Override.txt"):
+			with open("Prefix_Override.txt", "r") as f:
 				prefix = f.read()
-				print(f"[Info] Prefix overiden to \"{prefix}\" via file \"Prefix_Overide.txt\".")
+				print(f"[Info] Prefix overiden to \"{prefix}\" via file \"Prefix_Override.txt\".")
 				f.close()
 		elif NoCommandSettings["Prefix"] != None:
 			prefix = NoCommandSettings["Prefix"] #This allows custom prefixes.
