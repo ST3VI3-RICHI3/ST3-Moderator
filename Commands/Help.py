@@ -34,6 +34,7 @@ class Help(commands.Cog):
                 embed.add_field(name="Whois", value="Gets information about a specific user.", inline=False)
                 embed.add_field(name="role", value="Used for role managment. " + ctx.prefix + "role {Add / Remove} @User @Role", inline=False)
                 embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
+                embed.add_field(name="purge", value="Deletes a given ammount of messages.", inline=False)
                 embed.add_field(name="kick", value="kicks a specific user.", inline=False)
                 embed.add_field(name="ban", value="bans a specific user.", inline=False)
         except:
