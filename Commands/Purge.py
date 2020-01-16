@@ -12,6 +12,9 @@ class Purge(commands.Cog):
         if ctx.message.author.guild_permissions.manage_messages:
             await ctx.message.delete()
             await ctx.channel.purge(limit=Ammount)
+            msg = await ctx.send(f"Purged {Ammount} messages!")
+            await asyncio.sleep(5)
+            await msg.delete()
     
     @purge.error
     async def purge_error(self, ctx, error):

@@ -11,11 +11,11 @@ import time
 import random
 
 #--Funcs--#
-
+"""
 def DBUpdate(Database): #Not currently used with any bot features.
 	with open("DB.json", "w") as f:
 		json.dump(Database, f, indent = 4)
-
+"""
 #---------#
 
 print("[Info] Bot loading  [0%]")
@@ -109,7 +109,7 @@ bot = commands.Bot(command_prefix=prefix)
 client = bot
 
 #Database (Not currently used)
-
+"""
 if os.path.isfile("DB.json"):
 	with open("DB.json", "r") as DBFile:
 		Database = json.load(DBFile)
@@ -125,7 +125,7 @@ else:
 	Database = {}
 	with open("DB.json", "w") as f:
 		json.dump(Database, f, indent = 4)
-
+"""
 #--------#
 
 print("\r[Info] Bot loading [50%]")
@@ -143,7 +143,7 @@ for file in os.listdir("./Commands"):
 	if file.endswith(".py"):
 		Cog_Count += 1
 		print("\r[Info] Gathering cogs: " + str(Cog_Count), end="")
-		time.sleep(0.0625)
+		time.sleep(0.050)
 print("\n[Info] Loading cogs")
 print("[Info] Number of possible cogs found: " + str(Cog_Count))
 percentinc = 25 / Cog_Count
@@ -153,25 +153,28 @@ for file in os.listdir("./Commands"):
 		try:
 			bot.load_extension(f"Commands.{file[:-3]}")
 		except:
-			print(f"[Error] Failed to load cog \"Commands.{file[:-3]}\"")
+			print(f"\r[Error] Failed to load cog \"Commands.{file[:-3]}\"                         \r[Error] Failed to load cog \"Commands.{file[:-3]}\"")
 		Percent += percentinc
-		print(f"\r[Info] Bot loaded [{Percent}%]                         ", end="")
-		time.sleep(0.0625)
+		print(f"\r[Info] Bot loaded [{Percent}%]                         \r[Info] Bot loaded [{Percent}%]", end="")
+		time.sleep(0.050)
 print("\r[Info] Bot loaded [75%]                         \r[Info] Bot loaded [75%]", end = "")
 
 #--------#
 
 @bot.event
 async def on_command_error(ctx, error):
-	Sverity = "~"
-	if isinstance(error, commands.MissingRequiredArgument): Sverity = "Unimportant"
-	if isinstance(error, commands.BadArgument): Sverity = "Unimportant"
-	if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"
+	Sverity = "Undetermined"
+	Class = "Unknown"
+	if isinstance(error, commands.MissingRequiredArgument): Sverity = "Unimportant"; Class = "User invoked"
+	if isinstance(error, commands.BadArgument): Sverity = "Unimportant"; Class = "User invoked"
+	if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"; Class = "User invoked"
+	if isinstance(error, commands.CommandInvokeError): Sverity = "Medium"; Class = "Code error"
 
 	print("\n--ST3-MODERATOR ERROR HANDLER--")
 	print(f"  Command: {ctx.command}")
 	print(f"  Error: {error}")
 	print(f"  Error type: {str(type(error))[8:-2]}")
+	print(f"  Error class: {Class}")
 	print(f"  Sverity: {Sverity}")
 	print("-------------------------------\n")
 
