@@ -371,7 +371,8 @@ async def update(ctx, *, args=None):
 		if "--soft" in args.lower:
 			print("Update complete.")
 			msg = await ctx.send("Downloaded from git, a cog reload may be needed.")
-			await asyncio.sleep(5)
+			await bot.change_presence(activity=discord.Activity(name="for //", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+		        await asyncio.sleep(5)
 			await msg.delete()
 		else:
 			print("Update complete, restarting.")
