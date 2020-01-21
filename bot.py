@@ -357,7 +357,7 @@ async def restart(ctx):
 		await msg.delete()
 
 @bot.command()
-async def update(ctx):
+async def update(ctx, *, args=None):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
@@ -368,9 +368,15 @@ async def update(ctx):
 		except:
 			print("Unable to delete stop command.")
 		os.system("git pull")
-		print("Update complete, restarting.")
-		os.system("bot.py")
-		exit(0)
+		if "--soft" in args.lower:
+			print("Update complete.")
+			msg = await ctx.send("Downloaded from git, a cog reload may be needed.")
+			await asyncio.sleep(5)
+			await msg.delete()
+		else:
+			print("Update complete, restarting.")
+			os.system("bot.py")
+			exit(0)
 	else:
 		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 		await asyncio.sleep(5)
