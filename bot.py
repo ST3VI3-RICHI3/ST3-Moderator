@@ -314,7 +314,7 @@ async def Cog_Unload(ctx, cog):
 	if str(ctx.message.author.id) == devs:
 		if cog == "*":
 			for file in os.listdir("./Commands"):
-				print("[Info] Loading all cogs.")
+				print("[Info] Unloading all cogs.")
 				if file.endswith(".py"):
 					try:
 						print(f"[Info] unloading cog \"Commands.{file[:-3]}\".")
@@ -372,7 +372,7 @@ async def update(ctx, *, args=None):
 			print("Update complete.")
 			msg = await ctx.send("Downloaded from git, a cog reload may be needed.")
 			await bot.change_presence(activity=discord.Activity(name="for //", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-		        await asyncio.sleep(5)
+			await asyncio.sleep(5)
 			await msg.delete()
 		else:
 			print("Update complete, restarting.")
