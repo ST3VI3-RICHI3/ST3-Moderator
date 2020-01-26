@@ -357,7 +357,7 @@ async def restart(ctx):
 		await msg.delete()
 
 @bot.command()
-async def update(ctx, *, args=None):
+async def update(ctx, *, args="None"):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
