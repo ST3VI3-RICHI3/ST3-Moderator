@@ -368,7 +368,7 @@ async def update(ctx, *, args=None):
 		except:
 			print("Unable to delete stop command.")
 		os.system("git pull")
-		if "--soft" in args.lower:
+		if "--soft" in str(args).lower:
 			print("Update complete.")
 			msg = await ctx.send("Downloaded from git, a cog reload may be needed.")
 			await bot.change_presence(activity=discord.Activity(name="for //", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
