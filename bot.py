@@ -357,7 +357,7 @@ async def restart(ctx):
 		await msg.delete()
 
 @bot.command()
-async def update(ctx, *, args="None"):
+async def update(ctx, *, args: str="None"):
 	global stopping
 	if str(ctx.message.author.id) == devs:
 		stopping = True
@@ -368,18 +368,14 @@ async def update(ctx, *, args="None"):
 		except:
 			print("Unable to delete stop command.")
 		os.system("git pull")
-		try:
-			if "--soft" in str(args).lower:
-				print("Update complete.")
-				msg = await ctx.send("Downloaded from git, a cog reload may be needed.")
-				await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-				await asyncio.sleep(5)
-				await msg.delete()
-			else:
-				print("Update complete, restarting.")
-				os.system("bot.py")
-				exit(0)
-		except:
+		if "--soft" in str(args).lower():
+			print("Update complete.")
+			msg = await ctx.send("Downloaded update from git. Due to `--soft`, a cog reload or a bot restart may be needed to load / enable updated code. To do this, `//Cog_Reload *` will reload all cogs, `//restart` will restart the bot.")
+			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+			stopping = False
+			await asyncio.sleep(10)
+			await msg.delete()
+		else:
 			print("Update complete, restarting.")
 			os.system("bot.py")
 			exit(0)
