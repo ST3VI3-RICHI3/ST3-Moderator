@@ -1,6 +1,8 @@
 import discord
 import asyncio
 import random
+import Shared
+from Shared import Output
 from discord.ext import commands, tasks
 
 presance_overridden = False
@@ -12,9 +14,6 @@ class Rand_Presence(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(activity=discord.Activity(name="for " + self.bot.command_prefix, type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-        print("\r[Info] Bot loaded [100%]", end = "\n")
-        print("[Info] Bot running.")
         await self.randomPresanceChange()
 
     async def randomPresanceChange(self):
@@ -46,11 +45,11 @@ class Rand_Presence(commands.Cog):
             else:
                 Type = discord.ActivityType.playing
             await self.bot.change_presence(activity=discord.Activity(name=Name, type=Type), status=discord.Status.online, afk=False)
-            print("presance updated to: " + str(Type) + " " + Name + " (" + time + "s)")
+            Output(f"presance updated to: {str(Type)} {Name} ({time}s)")
             try:
                 await ctx.message.delete()
             except:
-                print("Was not able to delete status command.")
+                Output(Type="Error", Msg="Was not able to delete status command.")
             try:
                 time = int(time)
                 await asyncio.sleep(time)
