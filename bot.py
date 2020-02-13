@@ -319,7 +319,7 @@ async def update(ctx, *, args: str="None"):
 			Output(Type="Error", Msg="Bot update faliled: bot has uncomitted changes.")
 			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 			Shared.Vars.Stopping = False
-		elif "aborting" in UpOu.lower():
+		elif "aborting" in UpOut.lower():
 			Output(Type="Error", Msg="Bot update failed: unknown error.")
 			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 			Shared.Vars.Stopping = False
