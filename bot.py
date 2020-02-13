@@ -135,7 +135,7 @@ async def on_message(message):
 @bot.command()
 async def config(ctx, module: str = None, property: str = None, value = None, file: str = "Settings.json"):
 	if str(ctx.message.author.id) in Shared.Vars.devs:
-		global Settings
+		Settings = Shared.Vars.Settings
 		BotSettings = Settings['Bot_Settings']
 		if module == "*":
 			Keys = ""
