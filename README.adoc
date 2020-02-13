@@ -7,8 +7,8 @@ The current version of the bot is not the first write. ST3-Moderator had a previ
 The bot aims to ease discord server moderation. This will be achived by not only alowing customisation (from self-hosted versions) but providing utilities such as spam protection (Not currently implemented), timed user mutes (Not currently implemented), etc.
 
 
-The bot can be added link:https://discordapp.com/api/oauth2/authorize?client_id=459014792464695317&permissions=8&scope=bot[here]. +
-You can also link:https://discord.gg/fPNPq48[join] the bot testing server.
+The bot can be added link:https://discordapp.com/api/oauth2/authorize?client_id=459014792464695317&permissions=8&scope=bot[here, target="_blank"]. +
+You can also link:https://discord.gg/fPNPq48[join, target="_blank"] the bot testing server.
 
 Current bot features::
     Admin:::
