@@ -24,334 +24,346 @@ if os.path.isfile("Logs/Latest.log"):
 	print("Clearing latest log...")
 	os.remove("Logs/Latest.log")
 
-#Clear the screen, this is to reduce console clutter.
-if Shared.Vars.IsLinux:
-	os.system("clear")
-else:
-	os.system("cls")
+while True:
+	try:
 
-#--Funcs--#
-
-"""
-def DBUpdate(Database): #Not currently used with any bot features.
-	with open("DB.json", "w") as f:
-		json.dump(Database, f, indent = 4)
-"""
-#---------#
-
-Output("ST3-MODERATOR by \"ST3VI3 RICHI3#5015\"")
-Output("Bot loading  [0%]")
-
-#--Init--#
-
-Shared.__init__()
-
-global prefix
-prefix = Shared.Vars.prefix
-
-bot = commands.Bot(command_prefix=prefix)
-client = bot
-
-Output(Premsg="\r", Msg="Bot loading [50%]")
-
-bot = commands.Bot(command_prefix=prefix)# This sets the prefix that the bot will use.
-client = bot
-
-bot.remove_command('help') #Removes the default discord help command
-
-#--Cogs--#
-
-def Load_Cogs():
-	Output("Gathering cogs", End="")
-	Cog_Count = 0
-	for file in os.listdir("./Commands"):
-		if file.endswith(".py"):
-			Cog_Count += 1
-			Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}", End="")
-	Output(Premsg="\n", Msg="Loading cogs")
-	Output(f"Number of possible cogs found: {str(Cog_Count)}")
-	percentinc = 25 / Cog_Count
-	Percent = 50
-	for file in os.listdir("./Commands"):
-		if file.endswith(".py"):
-			try:
-				bot.load_extension(f"Commands.{file[:-3]}")
-			except:
-				Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
-			Percent += percentinc
-			Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
-	Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
-
-Load_Cogs()
-
-#--------#
-
-@bot.event
-async def on_ready():
-	Output(Premsg="\r", Msg="Bot loaded [100%]", End="\n")
-	await bot.change_presence(activity=discord.Activity(name=f"for {bot.command_prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-	Output("Bot ready.")
-
-@bot.event
-async def on_command_error(ctx, error):
-
-	if hasattr(ctx.command, "on_error"):
-		return
-
-	error = getattr(error, 'original', error)
-
-	Sverity = "Undetermined"
-	Class = "Unknown"
-	if isinstance(error, commands.MissingRequiredArgument): Sverity = "Unimportant"; Class = "User invoked"
-	if isinstance(error, commands.BadArgument): Sverity = "Unimportant"; Class = "User invoked"
-	if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"; Class = "User invoked"
-	if isinstance(error, commands.CommandInvokeError): Sverity = "Medium"; Class = "Code error"
-
-	print("\n--ST3-MODERATOR ERROR HANDLER--")
-	print(f"  Command: {ctx.command}")
-	print(f"  Error: {error}")
-	print(f"  Error type: {str(type(error))[8:-2]}")
-	print(f"  Error class: {Class}")
-	print(f"  Sverity: {Sverity}")
-	print("-------------------------------\n")
-
-@bot.event
-async def on_message(message):
-	if message.author.id != bot.user.id:
-		"""if len(message.content) >= 6:
-			if message.content.lower()[0:5] == "urban":
-				query = "https://www.urbandictionary.com/define.php?term="
-				for char in message.content[6:len(message.content)]:
-					if char == " ":
-						query = query + "+"
-					else:
-						query = query + char
-				await message.channel.send(query)"""
-		pass
-	await bot.process_commands(message)
-
-@bot.command()
-async def config(ctx, module: str = None, property: str = None, value = None, file: str = "Settings.json"):
-	if str(ctx.message.author.id) in Shared.Vars.devs:
-		Settings = Shared.Vars.Settings
-		BotSettings = Settings['Bot_Settings']
-		if module == "*":
-			Keys = ""
-			for key in dict(Settings['Bot_Settings']).keys():
-				skey = str(key) + "\n"
-				Keys = Keys + str(skey)
-			await ctx.send("```-----Module list-----\n" + Keys + "```")
-		elif module == None:
-			await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Missing value `module` (arg1).")
-		elif module in BotSettings.keys():
-			BSettings = Settings['Bot_Settings']
-			Module = BSettings[module]
-			if property == None:
-				Keys = ""
-				for key, value in Module.items():
-					skey = str(key) + " = " + str(value) + "\n"
-					Keys = Keys + str(skey)
-				await ctx.send("```-----" + module.capitalize() + " variable list-----\n" + Keys + "```")
-			else:
-				if property in Module.keys():
-					if value == None:
-						await ctx.send("Property `" + property + "` is currently set to `" + str(Module[property]) + "`.")
-					else:
-						if type(Module[property]) != type(value):
-							if "true" or "false" in value.lower():
-								if "false" in value.lower():
-									value = False
-								else:
-									value = True
-							else:
-								try:
-									value = int(value)
-								except ValueError:
-									try:
-										value = float(value)
-									except:
-										pass
-						if type(Module[property]) == type(value):
-							Module[property] = value
-							BSettings[module] = Module
-							Settings['Bot_Settings'] = BSettings
-							with open("Settings.json", "w") as f:
-								json.dump(Settings, f, indent=4)
-							await ctx.send("Property updated to \"" + str(value) + "\".")
-						else:
-							await ctx.send(":x: Invalid type: `" + str(type(value)) + "`, should be: `" + str(type(Module[property])) + "`.")
-				else:
-					await ctx.send("Invalid property.")
+		#Clear the screen, this is to reduce console clutter.
+		if Shared.Vars.IsLinux:
+			os.system("clear")
 		else:
-			await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Invalid module.")
-	else:
-		await ctx.send(":warning:Warning: <@" + str(ctx.message.author.id) + "> has insuficiant permissions to run this command.")
+			os.system("cls")
 
+		#--Funcs--#
 
-#--Cog related commands--#
+		"""
+		def DBUpdate(Database): #Not currently used with any bot features.
+			with open("DB.json", "w") as f:
+				json.dump(Database, f, indent = 4)
+		"""
+		#---------#
 
-@bot.command()
-async def Cog_Load(ctx, cog):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		if cog == "*":
+		Output("ST3-MODERATOR by \"ST3VI3 RICHI3#5015\"")
+		Output("Bot loading  [0%]")
+
+		#--Init--#
+
+		Shared.__init__()
+
+		global prefix
+		prefix = Shared.Vars.prefix
+
+		bot = commands.Bot(command_prefix=prefix)
+		client = bot
+
+		Output(Premsg="\r", Msg="Bot loading [50%]")
+
+		bot = commands.Bot(command_prefix=prefix)# This sets the prefix that the bot will use.
+		client = bot
+
+		bot.remove_command('help') #Removes the default discord help command
+
+		#--Cogs--#
+
+		def Load_Cogs():
+			Output("Gathering cogs", End="")
+			Cog_Count = 0
 			for file in os.listdir("./Commands"):
-				Output("Loading all cogs.")
+				if file.endswith(".py"):
+					Cog_Count += 1
+					Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}", End="")
+			Output(Premsg="\n", Msg="Loading cogs")
+			Output(f"Number of possible cogs found: {str(Cog_Count)}")
+			percentinc = 25 / Cog_Count
+			Percent = 50
+			for file in os.listdir("./Commands"):
 				if file.endswith(".py"):
 					try:
-						Output(f"loading cog \"Commands.{file[:-3]}\".")
 						bot.load_extension(f"Commands.{file[:-3]}")
 					except:
-						Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
-		else:
-			try:
-				Output(f"loading cog \"{cog}\".")
-				bot.load_extension(cog)
-				Output(f"loaded cog \"{cog}\".")
-				await ctx.message.delete()
-				msg = await ctx.send("Loaded cog successfully!")
-				await asyncio.sleep(5)
-				await msg.delete()
-			except:
-				Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
-				await ctx.message.delete()
-				msg = await ctx.send("There was an error loading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
-				await asyncio.sleep(5)
-				await msg.delete()
+						Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+					Percent += percentinc
+					Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
+			Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
 
-@bot.command()
-async def Cog_Reload(ctx, cog):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		if cog == "*":
-			Output("Reloading all cogs.")
-			for file in os.listdir("./Commands"):
-				if file.endswith(".py"):
-					try:
-						Output(f"reloading cog \"Commands.{file[:-3]}\".")
-						bot.reload_extension(f"Commands.{file[:-3]}")
-						Output(f"reloaded \"Commands.{file[:-3]}\"")
-					except:
-						Output(Type="Error", Msg=f"Failed to reload cog \"Commands.{file[:-3]}\"")
-			await ctx.send("Reloaded all cogs!")
-			Output("Reload complete!")
-		else:
-			try:
-				Output(f"reloading cog \"{cog}\".")
-				bot.reload_extension(cog)
-				Output(f"reloaded cog \"{cog}\".")
-				await ctx.message.delete()
-				msg = await ctx.send("Reloaded cog successfully!")
-				await asyncio.sleep(5)
-				await msg.delete()
-			except:
-				await ctx.message.delete()
-				msg = await ctx.send("There was an error Reloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
-				Output(Type="Error", Msg=f"Failed to reload cog \"{cog}\".")
-				await asyncio.sleep(5)
-				await msg.delete()
+		Load_Cogs()
 
-@bot.command()
-async def Cog_Unload(ctx, cog):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		if cog == "*":
-			for file in os.listdir("./Commands"):
-				Output("Unloading all cogs.")
-				if file.endswith(".py"):
-					try:
-						Output(f"unloading cog \"Commands.{file[:-3]}\".")
-						bot.unload_extension(f"Commands.{file[:-3]}")
-					except:
-						Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
-		else:
-			try:
-				Output(f"Unloading cog \"{cog}\".")
-				bot.unload_extension(cog)
-				Output(f"Unloaded cog \"{cog}\".")
-				await ctx.message.delete()
-				msg = await ctx.send("Unloaded cog successfully!")
-				await asyncio.sleep(5)
-				await msg.delete()
-			except:
-				await ctx.message.delete()
-				msg = await ctx.send("There was an error unloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
-				await asyncio.sleep(5)
-				await msg.delete()
+		#--------#
 
-#------------------------#
+		@bot.event
+		async def on_ready():
+			Output(Premsg="\r", Msg="Bot loaded [100%]", End="\n")
+			await bot.change_presence(activity=discord.Activity(name=f"for {bot.command_prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+			Output("Bot ready.")
 
-@bot.command()
-async def restart(ctx):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		Shared.Vars.Stopping = True
-		Output("Restarting")
-		await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
-		try:
-			await ctx.message.delete()
-		except:
-			Output(Type="Error", Msg="Unable to delete restart command.")
-		if Shared.Vars.IsLinux:
-			os.system("python3 bot.py")
-		else:
-			os.system("bot.py")
-		exit(0)
-	else:
-		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
-		await asyncio.sleep(5)
-		await msg.delete()
+		@bot.event
+		async def on_command_error(ctx, error):
 
-@bot.command()
-async def update(ctx, *, args: str="None"):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		Shared.Vars.Stopping = True
-		Output("Attempting to perform update procedure.")
-		await bot.change_presence(activity=discord.Activity(name="bot updating...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
-		try:
-			await ctx.message.delete()
-		except:
-			Output(Type="Error", Msg="Unable to delete update command.")
-		UpOut = os.popen("git pull").read()
-		if "already up to date." in UpOut.lower():
-			Output(Type="Error", Msg="Aborting update, bot is already up to date.")
-			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-			Shared.Vars.Stopping = False
-		elif "please commit your changes or stash them before you merge" in UpOut.lower():
-			Output(Type="Error", Msg="Bot update faliled: bot has uncomitted changes.")
-			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-			Shared.Vars.Stopping = False
-		elif "aborting" in UpOut.lower():
-			Output(Type="Error", Msg="Bot update failed: unknown error.")
-			await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-			Shared.Vars.Stopping = False
-		else:
-			if "--soft" in str(args).lower():
-				Output("Update complete.")
-				msg = await ctx.send("Downloaded update from git. Due to `--soft`, a cog reload or a bot restart may be needed to load / enable updated code. To do this, `//Cog_Reload *` will reload all cogs, `//restart` will restart the bot.")
-				await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-				Shared.Vars.Stopping = False
-				await asyncio.sleep(10)
-				await msg.delete()
+			if hasattr(ctx.command, "on_error"):
+				return
+
+			error = getattr(error, 'original', error)
+
+			Sverity = "Undetermined"
+			Class = "Unknown"
+			if isinstance(error, commands.MissingRequiredArgument): Sverity = "Unimportant"; Class = "User invoked"
+			if isinstance(error, commands.BadArgument): Sverity = "Unimportant"; Class = "User invoked"
+			if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"; Class = "User invoked"
+			if isinstance(error, commands.CommandInvokeError): Sverity = "Medium"; Class = "Code error"
+
+			print("\n--ST3-MODERATOR ERROR HANDLER--")
+			print(f"  Command: {ctx.command}")
+			print(f"  Error: {error}")
+			print(f"  Error type: {str(type(error))[8:-2]}")
+			print(f"  Error class: {Class}")
+			print(f"  Sverity: {Sverity}")
+			print("-------------------------------\n")
+
+		@bot.event
+		async def on_message(message):
+			if message.author.id != bot.user.id:
+				"""if len(message.content) >= 6:
+					if message.content.lower()[0:5] == "urban":
+						query = "https://www.urbandictionary.com/define.php?term="
+						for char in message.content[6:len(message.content)]:
+							if char == " ":
+								query = query + "+"
+							else:
+								query = query + char
+						await message.channel.send(query)"""
+				pass
+			await bot.process_commands(message)
+
+		@bot.command()
+		async def config(ctx, module: str = None, property: str = None, value: str = None, file: str = "Settings.json"):
+			if str(ctx.message.author.id) in Shared.Vars.devs:
+				BotSettings = Shared.Vars.Settings['Bot_Settings']
+				if module == "*":
+					Keys = ""
+					for key in dict(Shared.Vars.Settings['Bot_Settings']).keys():
+						skey = str(key) + "\n"
+						Keys = Keys + str(skey)
+					await ctx.send("```-----Module list-----\n" + Keys + "```")
+				elif module == None:
+					await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Missing value `module` (arg1).")
+				elif module in BotSettings.keys():
+					BSettings = Shared.Vars.Settings['Bot_Settings']
+					Module = BSettings[module]
+					if property == None:
+						Keys = ""
+						for key, value in Module.items():
+							skey = str(key) + " = " + str(value) + "\n"
+							Keys = Keys + str(skey)
+						await ctx.send("```-----" + module.capitalize() + " variable list-----\n" + Keys + "```")
+					else:
+						if property in Module.keys():
+							if value == None:
+								await ctx.send("Property `" + property + "` is currently set to `" + str(Module[property]) + "`.")
+							else:
+								if type(Module[property]) != type(value):
+									try:
+										value = int(value)
+									except ValueError:
+										try:
+											value = float(value)
+										except:
+											if "true" or "false" in value.lower():
+												if "false" in value.lower():
+													value = False
+												else:
+													value = True
+											else:
+												pass
+								if type(Module[property]) == type(value):
+									Module[property] = value
+									BSettings[module] = Module
+									Shared.Vars.Settings['Bot_Settings'] = BSettings
+									with open("Settings.json", "w") as f:
+										json.dump(Shared.Vars.Settings, f, indent=4)
+									await ctx.send("Property updated to \"" + str(value) + "\".")
+									Output(f"Property {property} in {module} updated to \"{str(value)}\".")
+								else:
+									await ctx.send(":x: Invalid type: `" + str(type(value)) + "`, should be: `" + str(type(Module[property])) + "`.")
+						else:
+							await ctx.send("Invalid property.")
+				else:
+					await ctx.send("<@" + str(ctx.message.author.id) + "> :regional_indicator_x: Invalid module.")
 			else:
-				Output("Update complete, restarting.")
-				os.system("bot.py")
-				exit(0)
-	else:
-		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
-		await asyncio.sleep(5)
-		await msg.delete()
+				await ctx.send(":warning:Warning: <@" + str(ctx.message.author.id) + "> has insuficiant permissions to run this command.")
 
-@bot.command()
-async def shutdown(ctx):
-	if str(ctx.message.author.id) == Shared.Vars.devs:
-		Shared.Vars.Stopping = True
-		await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
-		Output("shutting down")
-		try:
+
+		#--Cog related commands--#
+
+		@bot.command()
+		async def Cog_Load(ctx, cog):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				if cog == "*":
+					for file in os.listdir("./Commands"):
+						Output("Loading all cogs.")
+						if file.endswith(".py"):
+							try:
+								Output(f"loading cog \"Commands.{file[:-3]}\".")
+								bot.load_extension(f"Commands.{file[:-3]}")
+							except:
+								Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+				else:
+					try:
+						Output(f"loading cog \"{cog}\".")
+						bot.load_extension(cog)
+						Output(f"loaded cog \"{cog}\".")
+						await ctx.message.delete()
+						msg = await ctx.send("Loaded cog successfully!")
+						await asyncio.sleep(5)
+						await msg.delete()
+					except:
+						Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+						await ctx.message.delete()
+						msg = await ctx.send("There was an error loading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+						await asyncio.sleep(5)
+						await msg.delete()
+
+		@bot.command()
+		async def Cog_Reload(ctx, cog):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				if cog == "*":
+					Output("Reloading all cogs.")
+					for file in os.listdir("./Commands"):
+						if file.endswith(".py"):
+							try:
+								Output(f"reloading cog \"Commands.{file[:-3]}\".")
+								bot.reload_extension(f"Commands.{file[:-3]}")
+								Output(f"reloaded \"Commands.{file[:-3]}\"")
+							except:
+								Output(Type="Error", Msg=f"Failed to reload cog \"Commands.{file[:-3]}\"")
+					await ctx.send("Reloaded all cogs!")
+					Output("Reload complete!")
+				else:
+					try:
+						Output(f"reloading cog \"{cog}\".")
+						bot.reload_extension(cog)
+						Output(f"reloaded cog \"{cog}\".")
+						await ctx.message.delete()
+						msg = await ctx.send("Reloaded cog successfully!")
+						await asyncio.sleep(5)
+						await msg.delete()
+					except:
+						await ctx.message.delete()
+						msg = await ctx.send("There was an error Reloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+						Output(Type="Error", Msg=f"Failed to reload cog \"{cog}\".")
+						await asyncio.sleep(5)
+						await msg.delete()
+
+		@bot.command()
+		async def Cog_Unload(ctx, cog):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				if cog == "*":
+					for file in os.listdir("./Commands"):
+						Output("Unloading all cogs.")
+						if file.endswith(".py"):
+							try:
+								Output(f"unloading cog \"Commands.{file[:-3]}\".")
+								bot.unload_extension(f"Commands.{file[:-3]}")
+							except:
+								Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
+				else:
+					try:
+						Output(f"Unloading cog \"{cog}\".")
+						bot.unload_extension(cog)
+						Output(f"Unloaded cog \"{cog}\".")
+						await ctx.message.delete()
+						msg = await ctx.send("Unloaded cog successfully!")
+						await asyncio.sleep(5)
+						await msg.delete()
+					except:
+						await ctx.message.delete()
+						msg = await ctx.send("There was an error unloading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
+						await asyncio.sleep(5)
+						await msg.delete()
+
+		#------------------------#
+
+		@bot.command()
+		async def Error(ctx):
 			await ctx.message.delete()
-		except:
-			Output(Type="Error", Msg="Unable to delete shutdown command.")
-		exit(0)
-	else:
-		msg = await ctx.send(":x: You do not have the required permissions to run this command.")
-		await asyncio.sleep(5)
-		await msg.delete()
+			ctx.message.delete()
 
-bot.run(Shared.Vars.Token)
+		@bot.command()
+		async def restart(ctx):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				Shared.Vars.Stopping = True
+				Output("Restarting")
+				await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
+				try:
+					await ctx.message.delete()
+				except:
+					Output(Type="Error", Msg="Unable to delete restart command.")
+				if Shared.Vars.IsLinux:
+					os.system("python3 bot.py")
+				else:
+					os.system("bot.py")
+				exit(0)
+			else:
+				msg = await ctx.send(":x: You do not have the required permissions to run this command.")
+				await asyncio.sleep(5)
+				await msg.delete()
+
+		@bot.command()
+		async def update(ctx, *, args: str="None"):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				Shared.Vars.Stopping = True
+				Output("Attempting to perform update procedure.")
+				await bot.change_presence(activity=discord.Activity(name="bot updating...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
+				try:
+					await ctx.message.delete()
+				except:
+					Output(Type="Error", Msg="Unable to delete update command.")
+				UpOut = os.popen("git pull").read()
+				if "already up to date." in UpOut.lower():
+					Output(Type="Error", Msg="Aborting update, bot is already up to date.")
+					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					Shared.Vars.Stopping = False
+				elif "please commit your changes or stash them before you merge" in UpOut.lower():
+					Output(Type="Error", Msg="Bot update faliled: bot has uncomitted changes.")
+					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					Shared.Vars.Stopping = False
+				elif "aborting" in UpOut.lower():
+					Output(Type="Error", Msg="Bot update failed: unknown error.")
+					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					Shared.Vars.Stopping = False
+				else:
+					if "--soft" in str(args).lower():
+						Output("Update complete.")
+						msg = await ctx.send("Downloaded update from git. Due to `--soft`, a cog reload or a bot restart may be needed to load / enable updated code. To do this, `//Cog_Reload *` will reload all cogs, `//restart` will restart the bot.")
+						await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+						Shared.Vars.Stopping = False
+						await asyncio.sleep(10)
+						await msg.delete()
+					else:
+						Output("Update complete, restarting.")
+						os.system("bot.py")
+						exit(0)
+			else:
+				msg = await ctx.send(":x: You do not have the required permissions to run this command.")
+				await asyncio.sleep(5)
+				await msg.delete()
+
+		@bot.command()
+		async def shutdown(ctx):
+			if str(ctx.message.author.id) == Shared.Vars.devs:
+				Shared.Vars.Stopping = True
+				await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
+				Output("shutting down")
+				try:
+					await ctx.message.delete()
+				except:
+					Output(Type="Error", Msg="Unable to delete shutdown command.")
+				exit(0)
+			else:
+				msg = await ctx.send(":x: You do not have the required permissions to run this command.")
+				await asyncio.sleep(5)
+				await msg.delete()
+
+		bot.run(Shared.Vars.Token)
+
+	except Exception as e:
+		Output(Type="Error", Msg=f"An error has occured ({str(e)}).")
+		Shared.BIn("Press return to restart.")

@@ -8,6 +8,9 @@
         },
         "Help": {
             "Send_To_DM": true
+        },
+        "Rand_Presence": {
+            "Presence_Update_Tick": 60000
         }
     },
     "Info": {

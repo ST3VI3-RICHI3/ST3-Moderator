@@ -15,6 +15,18 @@ def Output(Msg: str, Type="Info", Premsg="", End="\n"):
 		if not os.path.isfile("Logs"):
 			os.popen("mkdir Logs")
 
+def BIn(Msg: str, Type="Input", Premsg=""):
+	Msg = input(f"{Premsg}[{str(datetime.now())[:19]} | {Type}] {Msg}")
+	try:
+		with open("Logs/Latest.log", "a") as Log:
+			Log.write(f"[{str(datetime.now())[:19]} | {Type}] {Msg}\n")
+	except:
+		if not os.path.isfile("Logs"):
+			os.popen("mkdir Logs")
+			with open("Logs/Latest.log", "w") as Log:
+				Log.write(f"[{str(datetime.now())[:19]} | {Type}] {Msg}\n")
+	return Msg
+
 def SetLoad():
 	if os.path.isfile("Settings.json"):
 		Output("Loading bot settings")
