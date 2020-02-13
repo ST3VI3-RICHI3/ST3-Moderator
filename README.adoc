@@ -33,6 +33,9 @@ Current bot features::
             Purges a given ammount of messages (command message automatically included). +
             Args: "Ammount".
     Dev:::
+        . Testing
+            * Test +
+            Tests if the bot is responsive, disabled by default (run `Cog_Load Commands.$Disabled.Test` to load this command.).
         . Configuration
             * Config +
             Configures a property within a given JSON file. +

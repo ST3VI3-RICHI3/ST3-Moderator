@@ -80,16 +80,14 @@ def Load_Cogs():
 				Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
 			Percent += percentinc
 			Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
-			sleep((15/Cog_Count))
 	Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
+
+Load_Cogs()
 
 #--------#
 
 @bot.event
 async def on_ready():
-	Output("Bot online.")
-	await bot.change_presence(activity=discord.Activity(name="cogs load", type=discord.ActivityType.watching), status=discord.Status.idle, afk=False)
-	Load_Cogs()
 	Output(Premsg="\r", Msg="Bot loaded [100%]", End="\n")
 	await bot.change_presence(activity=discord.Activity(name=f"for {bot.command_prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 	Output("Bot ready.")
