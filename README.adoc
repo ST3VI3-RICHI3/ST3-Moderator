@@ -11,36 +11,36 @@ The bot can be added link:https://discordapp.com/api/oauth2/authorize?client_id=
 You can also link:https://discord.gg/fPNPq48[join] the bot testing server.
 
 Current bot features::
-    Admin::
-        User management:::
-            * Kick:: Kicks a given user. +
+    Admin:::
+        User management::::
+            Kick:: Kicks a given user. +
             Args: "User": discord.member (@mention / ID will work.), "reason".
-            * Ban:: Bans a given user. +
+            Ban:: Bans a given user. +
             Args: "User": discord.member (@mention / ID will work.), "reason".
-            * Role:: Adds / removes a given role from a user. + 
+            Role:: Adds / removes a given role from a user. + 
             Args: "func" Can be two values: "add" "remove", "User": discord.member (@mention / ID will work.), role: discord.Role (@role / role ID will work.).
-            * Whois:: Provides information on a given user. +
+            Whois:: Provides information on a given user. +
             Args: "User": discord.member (@mention / ID will work.).
-        Channel Utilities::
-            * C_Announce:: mentions every one in a channel. +
+        Channel Utilities::::
+            C_Announce:: mentions every one in a channel. +
             Args: "message".
-            * Purge:: Purges a given ammount of messages (command message automatically included). +
+            Purge:: Purges a given ammount of messages (command message automatically included). +
             Args: "Ammount".
     Dev:::
-        Configuration:::
-            * Config:: Configures a property within a given JSON file. +
+        Configuration::::
+            Config:: Configures a property within a given JSON file. +
             Args: "module", "property", "value", "file" (Optional). A list can be provided at each stage, pass "*" if module only.
             Cogs:::
-            * Cog_Load:: Loads all cogs or loads a given cog. +
+            Cog_Load:: Loads all cogs or loads a given cog. +
             Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to load all cogs.
-            * Cog_Reload:: Reloads all cogs or reloads a given cog. +
+            Cog_Reload:: Reloads all cogs or reloads a given cog. +
             Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to reload all cogs.
             * Cog_Unload:: Unloads all cogs or unloads a given cog. +
             Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to Unload all cogs.
-        Remote Control:::
-            * Update:: Updates the bot via this git repository +
+        Remote Control::::
+            Update:: Updates the bot via this git repository +
             Args: None.
-            * Restart:: Restarts the bot +
+            Restart:: Restarts the bot +
             Args: None.
-            * Shutdown:: Causes the script to exit +
+            Shutdown:: Causes the script to exit +
             Args: None.
