@@ -74,14 +74,14 @@ class Mute(commands.Cog):
     @commands.command()
     async def setmute(self, ctx, role: discord.Role = None):
         if ctx.message.author.guild_permissions.administrator:
-        Guilds = Shared.Database.Load("Guilds.json")
-        Guilds[str(ctx.message.guild.id)] = {}
-        Guilds[str(ctx.message.guild.id)]["Mute_Role"] = role.id
-        Shared.Database.dump("Guilds.json", Guilds)
-        msg = await ctx.send(f":thumbsup: Set muted role to {role.id}")
-        await asyncio.sleep(10)
-        await msg.delete()
-        await ctx.message.delete()
+            Guilds = Shared.Database.Load("Guilds.json")
+            Guilds[str(ctx.message.guild.id)] = {}
+            Guilds[str(ctx.message.guild.id)]["Mute_Role"] = role.id
+            Shared.Database.dump("Guilds.json", Guilds)
+            msg = await ctx.send(f":thumbsup: Set muted role to {role.id}")
+            await asyncio.sleep(10)
+            await msg.delete()
+            await ctx.message.delete()
 
     @commands.command()
     async def unmute(self, ctx, user: discord.Member = None):
