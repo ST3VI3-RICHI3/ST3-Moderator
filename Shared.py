@@ -109,10 +109,12 @@ class Database:
 		else:
 			Output(Type="Error", Msg="Cannot refresh database file, incorrect format.")
 
-	def dump(file=DatFile):
+	def dump(file=DatFile, data=None):
+		if data == None:
+			data = Vars.DBData
 		if file.endswith(".json"):
 			with open(file, "w") as f:
-				json.dump(Vars.DBData, f, indent = 4)
+				json.dump(data, f, indent = 4)
 				f.close()
 
 class Vars:

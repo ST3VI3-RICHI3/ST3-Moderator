@@ -32,8 +32,8 @@ class Rand_Presence(commands.Cog):
                 Type = discord.ActivityType.watching
             elif Type == "listening":
                 Type = discord.ActivityType.listening
-            elif tpye == "streaming":
-                tpye = discord.ActivityType.streaming
+            elif Type == "streaming":
+                Type = discord.ActivityType.streaming
             elif Type == "unknown":
                 Type = discord.ActivityType.unknown
             else:
@@ -47,7 +47,7 @@ class Rand_Presence(commands.Cog):
             try:
                 time = int(time)
                 await asyncio.sleep(time)
-                await self.bot.change_presence(activity=discord.Activity(name="for " + prefix, type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+                await self.bot.change_presence(activity=discord.Activity(name="for " + Shared.Vars.prefix, type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
                 Shared.Vars.presance_overridden = False
                 await randomPresanceChange()
             except:

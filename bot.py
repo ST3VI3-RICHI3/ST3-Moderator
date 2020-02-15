@@ -2,11 +2,11 @@
 
 from __future__ import print_function
 import discord
-from discord.ext import commands
 import asyncio
 import json
 import os
 import Shared
+from discord.ext import commands
 from time import sleep
 from datetime import datetime
 from Shared import Output
@@ -33,15 +33,6 @@ while True:
 		else:
 			os.system("cls")
 
-		#--Funcs--#
-
-		"""
-		def DBUpdate(Database): #Not currently used with any bot features.
-			with open("DB.json", "w") as f:
-				json.dump(Database, f, indent = 4)
-		"""
-		#---------#
-
 		Output("ST3-MODERATOR by \"ST3VI3 RICHI3#5015\"")
 		Output("Bot loading  [0%]")
 
@@ -49,18 +40,14 @@ while True:
 
 		Shared.__init__()
 
-		global prefix
-		prefix = Shared.Vars.prefix
+		Output(Premsg="\r", Msg="Bot loading [25%]")
 
-		bot = commands.Bot(command_prefix=prefix)
-		client = bot
-
-		Output(Premsg="\r", Msg="Bot loading [50%]")
-
-		bot = commands.Bot(command_prefix=prefix)# This sets the prefix that the bot will use.
+		bot = commands.Bot(command_prefix=Shared.Vars.prefix)# This sets the prefix that the bot will use.
 		client = bot
 
 		bot.remove_command('help') #Removes the default discord help command
+
+		Output(Premsg="\r", Msg="Bot loading [50%]")
 
 		#--Cogs--#
 
@@ -109,14 +96,10 @@ while True:
 			if isinstance(error, commands.BadArgument): Sverity = "Unimportant"; Class = "User invoked"
 			if isinstance(error, commands.CommandNotFound): Sverity = "Unimportant"; Class = "User invoked"
 			if isinstance(error, commands.CommandInvokeError): Sverity = "Medium"; Class = "Code error"
+			if isinstance(error, AttributeError): Severity = "Medium"; Class = "Code error / Var error"
+			if isinstance(error, UnboundLocalError): Severity = "Critical"; Class = "Code error / Var error"
 
-			print("\n--ST3-MODERATOR ERROR HANDLER--")
-			print(f"  Command: {ctx.command}")
-			print(f"  Error: {error}")
-			print(f"  Error type: {str(type(error))[8:-2]}")
-			print(f"  Error class: {Class}")
-			print(f"  Sverity: {Sverity}")
-			print("-------------------------------\n")
+			Output(Type="Error", Msg=f"An error has occured: \n\n--ST3-MODERATOR ERROR HANDLER--\n  Command: {ctx.command}\n  Error: {str(error)}\n  Error type: {str(type(error))[8:-2]}\n  Error class: {Class}\n  Sverity: {Sverity}\n-------------------------------\n")
 
 		@bot.event
 		async def on_message(message):
@@ -319,21 +302,21 @@ while True:
 				UpOut = os.popen("git pull").read()
 				if "already up to date." in UpOut.lower():
 					Output(Type="Error", Msg="Aborting update, bot is already up to date.")
-					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					await bot.change_presence(activity=discord.Activity(name=f"for {Shared.Vars.prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 					Shared.Vars.Stopping = False
 				elif "please commit your changes or stash them before you merge" in UpOut.lower():
 					Output(Type="Error", Msg="Bot update faliled: bot has uncomitted changes.")
-					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					await bot.change_presence(activity=discord.Activity(name=f"for {Shared.Vars.prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 					Shared.Vars.Stopping = False
 				elif "aborting" in UpOut.lower():
 					Output(Type="Error", Msg="Bot update failed: unknown error.")
-					await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+					await bot.change_presence(activity=discord.Activity(name=f"for {Shared.Vars.prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 					Shared.Vars.Stopping = False
 				else:
 					if "--soft" in str(args).lower():
 						Output("Update complete.")
 						msg = await ctx.send("Downloaded update from git. Due to `--soft`, a cog reload or a bot restart may be needed to load / enable updated code. To do this, `//Cog_Reload *` will reload all cogs, `//restart` will restart the bot.")
-						await bot.change_presence(activity=discord.Activity(name=f"for {prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+						await bot.change_presence(activity=discord.Activity(name=f"for {Shared.Vars.prefix}", type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 						Shared.Vars.Stopping = False
 						await asyncio.sleep(10)
 						await msg.delete()
@@ -361,8 +344,7 @@ while True:
 				msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 				await asyncio.sleep(5)
 				await msg.delete()
-
-		bot.run(Shared.Vars.Token)
+		bot.run(Shared.Vars.Settings["Saved_Data"]["Token"])
 
 	except Exception as e:
 		Output(Type="Error", Msg=f"An error has occured ({str(e)}).")
