@@ -40,7 +40,7 @@ def SetLoad():
 		Vars.Version = Info["Bot_Version"]
 		if SV == "0.0.5":
 			if SavedData['Token'] != None:
-				Vars.TOKEN = SavedData['Token']
+				Vars.Token = SavedData['Token']
 			elif os.path.isfile("TOKEN"):
 				with open("TOKEN", "r") as f:
 					Vars.Token = f.read()

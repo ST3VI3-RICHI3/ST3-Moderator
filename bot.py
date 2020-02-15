@@ -344,7 +344,7 @@ while True:
 				msg = await ctx.send(":x: You do not have the required permissions to run this command.")
 				await asyncio.sleep(5)
 				await msg.delete()
-		bot.run(Shared.Vars.Settings["Saved_Data"]["Token"])
+		bot.run(Shared.Vars.Token)
 
 	except Exception as e:
 		Output(Type="Error", Msg=f"An error has occured ({str(e)}).")
