@@ -25,6 +25,8 @@ class Help(commands.Cog):
                 embed.add_field(name="Whois", value="Gets information about a specific user.", inline=False)
                 embed.add_field(name="C_Announce", value="Announces supplied text to the channel the command was used in. Caution: Uses @everyone", inline=False)
                 embed.add_field(name="Purge", value="Deletes a given ammount of messages.", inline=False)
+                embed.add_field(name="Mute", value="Mutes a given user.", inline=False)
+                embed.add_field(name="Unmute", value="Unmutes a given user.", inline=False)
         except:
             DM = True
         if str(ctx.message.author.id) == Shared.Vars.devs:

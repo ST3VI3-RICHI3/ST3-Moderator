@@ -10,7 +10,7 @@ class Mute(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def mute(self, ctx, user: discord.Member = None, *, Reason: str = "No reason provided"):
+    async def mute(self, ctx, user: discord.Member = None):
         MRole: discord.role = None
         Guilds = Shared.Database.Load("Guilds.json")
         if str(ctx.message.guild.id) in Guilds:

@@ -25,6 +25,15 @@ Current bot features::
             * Whois +
             Provides information on a given user. +
             Args: "User": discord.member (@mention / ID will work.).
+            * mute +
+            Mutes a given user. +
+            Args: "User": discord.member (@mention / ID will work.).
+            * unmute +
+            Unmutes a given user. +
+            Args: "User": discord.member (@mention / ID will work.).
+            * setmute +
+            Sets the ID of the role to give a user upon mute. +
+            Args: "Role": discord.role (@mention / ID will work.).
         . Channel Utilities
             * C_Announce +
             mentions everyone in a channel. +
