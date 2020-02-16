@@ -27,6 +27,7 @@ class Help(commands.Cog):
                 embed.add_field(name="Purge", value="Deletes a given ammount of messages.", inline=False)
                 embed.add_field(name="Mute", value="Mutes a given user.", inline=False)
                 embed.add_field(name="Unmute", value="Unmutes a given user.", inline=False)
+                embed.add_field(name="Setmute", value="Sets the role to give to a user on mute. Must be a @ mention of the role.", inline=False)
         except:
             DM = True
         if str(ctx.message.author.id) == Shared.Vars.devs:
