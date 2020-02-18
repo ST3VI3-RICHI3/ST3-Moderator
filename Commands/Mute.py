@@ -21,8 +21,9 @@ class Mute(commands.Cog):
                 if str(r).lower() == "muted":
                     MRole = ctx.message.guild.get_role(r.id)
             if MRole == None:
-                msg = await ctx.send(":x: Cannot find muted role for this guild.")
-                await asyncio.sleep(5)
+                msg = await ctx.send(f":x: I cannot find a role named `muted` for this guild. If your role is under a different name, turn on anyone can @ mention this role, then run `{Shared.Vars.prefix}setmute @mtue_role`. Anyone can @ mention this role can then be turned off if need be.")
+                await asyncio.sleep(30)
+                await ctx.message.delete()
                 await msg.delete()
                 return
         if ctx.message.author.guild_permissions.administrator:
@@ -120,8 +121,9 @@ class Mute(commands.Cog):
                     if str(r).lower() == "muted":
                         MRole = ctx.message.guild.get_role(r.id)
                 if MRole == None:
-                    msg = await ctx.send(":x: Cannot find muted role for this guild.")
-                    await asyncio.sleep(5)
+                    msg = await ctx.send(f":x: I cannot find a role named `muted` for this guild. If your role is under a different name, turn on anyone can @ mention this role, then run `{Shared.Vars.prefix}setmute @mtue_role`. Anyone can @ mention this role can then be turned off if need be.")
+                    await asyncio.sleep(30)
+                    await ctx.message.delete()
                     await msg.delete()
                     return
             if str(user.id) in str(Shared.Vars.DBData):
