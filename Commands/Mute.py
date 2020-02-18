@@ -37,10 +37,18 @@ class Mute(commands.Cog):
                         else:
                             Shared.Vars.DBData[str(user.id)] = {}
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
+                            MemRoles = []
+                            for r in user.roles:
+                                if "@everyone" not in str(r):
+                                    MemRoles.append(r.id)
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
-                                'Muted': True
+                                'Muted': True,
+                                'Old_Roles': MemRoles
                             })
                             Shared.Database.dump()
+                            for r in user.roles:
+                                if "@everyone" not in str(r):
+                                    await user.remove_roles(r)
                             await user.add_roles(MRole)
                             msg = await ctx.send(f"Muted <@{str(user.id)}>")
                             await asyncio.sleep(5)
@@ -49,10 +57,18 @@ class Mute(commands.Cog):
                 else:
                     Shared.Vars.DBData[str(user.id)] = {}
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
+                    MemRoles = []
+                    for r in user.roles:
+                        if "@everyone" not in str(r):
+                            MemRoles.append(r.id)
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
-                        'Muted': True
+                        'Muted': True,
+                        'Old_Roles': MemRoles
                     })
                     Shared.Database.dump()
+                    for r in user.roles:
+                        if "@everyone" not in str(r):
+                            await user.remove_roles(r)
                     await user.add_roles(MRole)
                     msg = await ctx.send(f"Muted <@{str(user.id)}>")
                     await asyncio.sleep(5)
@@ -61,10 +77,18 @@ class Mute(commands.Cog):
             else:
                 Shared.Vars.DBData[str(user.id)] = {}
                 Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
+                MemRoles = []
+                for r in user.roles:
+                    if "@everyone" not in str(r):
+                        MemRoles.append(r.id)
                 Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
-                    'Muted': True
+                    'Muted': True,
+                    'Old_Roles': MemRoles
                 })
                 Shared.Database.dump()
+                for r in user.roles:
+                    if "@everyone" not in str(r):
+                        await user.remove_roles(r)
                 await user.add_roles(MRole)
                 msg = await ctx.send(f"Muted <@{str(user.id)}>")
                 await asyncio.sleep(5)
@@ -107,6 +131,8 @@ class Mute(commands.Cog):
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)][0]["Muted"] = False
                             Shared.Database.dump()
                             await user.remove_roles(MRole)
+                            for r in Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)][0]["Old_Roles"]:
+                                await user.add_roles(ctx.message.guild.get_role(r))
                             msg = await ctx.send(f"Unmuted <@{user.id}>")
                             await asyncio.sleep(5)
                             await msg.delete()

@@ -66,8 +66,8 @@ while True:
 				if file.endswith(".py"):
 					try:
 						bot.load_extension(f"Commands.{file[:-3]}")
-					except:
-						Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+					except Exception as e:
+						Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\", {e}")
 					Percent += percentinc
 					Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
 			Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
@@ -104,15 +104,6 @@ while True:
 		@bot.event
 		async def on_message(message):
 			if message.author.id != bot.user.id:
-				"""if len(message.content) >= 6:
-					if message.content.lower()[0:5] == "urban":
-						query = "https://www.urbandictionary.com/define.php?term="
-						for char in message.content[6:len(message.content)]:
-							if char == " ":
-								query = query + "+"
-							else:
-								query = query + char
-						await message.channel.send(query)"""
 				pass
 			await bot.process_commands(message)
 
