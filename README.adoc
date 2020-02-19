@@ -34,6 +34,10 @@ Current bot features::
             * setmute +
             Sets the ID of the role to give a user upon mute. +
             Args: "Role": discord.role (@mention / ID will work.).
+			* confmute +
+            Sets a property in "guilds.json". +
+            Args: "option", "value". +
+			Options: "LTAP" (Leave To Avoid Punishment {true / false})
         . Channel Utilities
             * C_Announce +
             mentions everyone in a channel. +
