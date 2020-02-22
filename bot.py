@@ -256,11 +256,6 @@ while True:
 		#------------------------#
 
 		@bot.command()
-		async def Error(ctx):
-			await ctx.message.delete()
-			ctx.message.delete()
-
-		@bot.command()
 		async def restart(ctx):
 			if str(ctx.message.author.id) == Shared.Vars.devs:
 				Shared.Vars.Stopping = True
