@@ -1,5 +1,5 @@
 """
-ST3-Moderator, a moderation bot for discord
+    ST3-Moderator, a moderation bot for discord
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
