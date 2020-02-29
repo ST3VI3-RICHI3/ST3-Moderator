@@ -48,9 +48,8 @@ while True:
 		else:
 			os.system("cls")
 
-		Output("\n\n    ST3-MODERATOR  Copyright (C) 2020  ST3VI3 RICHI3\n\n    This program comes with ABSOLUTELY NO WARRANTY.\n    This is free software, and you are welcome to redistribute it\n    under certain conditions.\n")
-
 		Output("ST3-MODERATOR by \"ST3VI3 RICHI3#5015\"")
+		Output("\n\n    ST3-MODERATOR  Copyright (C) 2020  ST3VI3 RICHI3\n\n    This program comes with ABSOLUTELY NO WARRANTY.\n    This is free software, and you are welcome to redistribute it\n    under certain conditions.\n", Type="Copyright")
 		Output("Bot loading  [0%]")
 
 		#--Init--#
