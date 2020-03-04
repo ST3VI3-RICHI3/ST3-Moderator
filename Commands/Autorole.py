@@ -35,8 +35,8 @@ class Autorole(commands.Cog):
                 ARole = member.guild.get_role(MRole)
                 await member.add_roles(ARole)
 
-    @commands.command()
-    async def SetAutorole(self, ctx, role: discord.Role = None):
+    @commands.command(aliases=["SetAutorole"])
+    async def setautorole(self, ctx, role: discord.Role = None):
         if ctx.message.author.guild_permissions.administrator:
             Guilds = Shared.Database.Load("Guilds.json")
             if str(ctx.message.guild.id) not in Guilds:
