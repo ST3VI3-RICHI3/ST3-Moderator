@@ -30,8 +30,8 @@ class Autorole(commands.Cog):
         ARole: discord.role = None
         Guilds = Shared.Database.Load("Guilds.json")
         if str(member.guild.id) in Guilds:
-            if Guilds[str(ctx.message.guild.id)]["AutoroleID"] != None:
-                ARole = Guilds[str(ctx.message.guild.id)]["AutoroleID"]
+            if Guilds[str(member.guild.id)]["AutoroleID"] != None:
+                ARole = Guilds[str(member.guild.id)]["AutoroleID"]
                 ARole = member.guild.get_role(MRole)
                 await member.add_roles(ARole)
 
