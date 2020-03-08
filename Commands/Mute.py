@@ -105,7 +105,7 @@ class Mute(commands.Cog):
                 await msg.delete()
 
     @commands.command()
-    async def mute(self, ctx, user: discord.Member = None):
+    async def mute(self, ctx, user: discord.Member = None, time = 0):
         MRole: discord.role = None
         Guilds = Shared.Database.Load("Guilds.json")
         if str(ctx.message.guild.id) in Guilds:
@@ -133,6 +133,10 @@ class Mute(commands.Cog):
                 await msg.delete()
                 return
         if ctx.message.author.guild_permissions.administrator:
+            async def TimeMute(usr = user, time = 0):
+                if time != 0:
+                    await asyncio.sleep(time)
+                    await Mute.unmute(self, ctx, user, True)
             if str(user.id) in str(Shared.Vars.DBData):
                 if str(ctx.message.guild.id) in str(Shared.Vars.DBData[str(user.id)]):
                     if "Muted" in str(Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)]):
@@ -161,6 +165,7 @@ class Mute(commands.Cog):
                             await asyncio.sleep(5)
                             await msg.delete()
                             await ctx.message.delete()
+                            await TimeMute(user, time)
                 else:
                     Shared.Vars.DBData[str(user.id)] = {}
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
@@ -181,6 +186,7 @@ class Mute(commands.Cog):
                     await asyncio.sleep(5)
                     await msg.delete()
                     await ctx.message.delete()
+                    await TimeMute(user, time)
             else:
                 Shared.Vars.DBData[str(user.id)] = {}
                 Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
@@ -215,8 +221,8 @@ class Mute(commands.Cog):
             await ctx.message.delete()
 
     @commands.command()
-    async def unmute(self, ctx, user: discord.Member = None):
-        if ctx.message.author.guild_permissions.administrator:
+    async def unmute(self, ctx, user: discord.Member = None, invoked = False):
+        if ctx.message.author.guild_permissions.administrator or invoked:
             MRole: discord.role = None
             Guilds = Shared.Database.Load("Guilds.json")
             if str(ctx.message.guild.id) in Guilds:
@@ -228,10 +234,11 @@ class Mute(commands.Cog):
                         if str(r).lower() == "muted":
                             MRole = ctx.message.guild.get_role(r.id)
                     if MRole == None:
-                        msg = await ctx.send(f":x: I cannot find a role named `muted` for this guild. If your role is under a different name, turn on anyone can @ mention this role, then run `{Shared.Vars.prefix}setmute @mtue_role`. Anyone can @ mention this role can then be turned off if need be.")
-                        await asyncio.sleep(30)
-                        await ctx.message.delete()
-                        await msg.delete()
+                        if not invoked:
+                            msg = await ctx.send(f":x: I cannot find a role named `muted` for this guild. If your role is under a different name, turn on anyone can @ mention this role, then run `{Shared.Vars.prefix}setmute @mtue_role`. Anyone can @ mention this role can then be turned off if need be.")
+                            await asyncio.sleep(30)
+                            await ctx.message.delete()
+                            await msg.delete()
                         return
             else:
                 for r in ctx.message.guild.roles:
@@ -252,9 +259,10 @@ class Mute(commands.Cog):
                             await user.remove_roles(MRole)
                             for r in Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)][0]["Old_Roles"]:
                                 await user.add_roles(ctx.message.guild.get_role(r))
-                            msg = await ctx.send(f"Unmuted <@{user.id}>")
-                            await asyncio.sleep(5)
-                            await msg.delete()
-                            await ctx.message.delete()
+                            if not invoked:
+                                msg = await ctx.send(f"Unmuted <@{user.id}>")
+                                await asyncio.sleep(5)
+                                await msg.delete()
+                                await ctx.message.delete()
 def setup(bot):
     bot.add_cog(Mute(bot))
