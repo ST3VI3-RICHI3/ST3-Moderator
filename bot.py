@@ -246,8 +246,8 @@ while True:
 		async def Cog_Unload(ctx, cog):
 			if str(ctx.message.author.id) == Shared.Vars.devs:
 				if cog == "*":
+					Output("Unloading all cogs.")
 					for file in os.listdir("./Commands"):
-						Output("Unloading all cogs.")
 						if file.endswith(".py"):
 							try:
 								Output(f"unloading cog \"Commands.{file[:-3]}\".")
@@ -277,6 +277,14 @@ while True:
 				Shared.Vars.Stopping = True
 				Output("Restarting")
 				await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
+				Output("Unloading all cogs.")
+				for file in os.listdir("./Commands"):
+					if file.endswith(".py"):
+						try:
+							Output(f"unloading cog \"Commands.{file[:-3]}\".")
+							bot.unload_extension(f"Commands.{file[:-3]}")
+						except:
+							Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
 				try:
 					await ctx.message.delete()
 				except:
@@ -324,6 +332,14 @@ while True:
 						await msg.delete()
 					else:
 						Output("Update complete, restarting.")
+						Output("Unloading all cogs.")
+						for file in os.listdir("./Commands"):
+							if file.endswith(".py"):
+								try:
+									Output(f"unloading cog \"Commands.{file[:-3]}\".")
+									bot.unload_extension(f"Commands.{file[:-3]}")
+								except:
+									Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
 						os.system("bot.py")
 						exit(0)
 			else:
@@ -337,6 +353,14 @@ while True:
 				Shared.Vars.Stopping = True
 				await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 				Output("shutting down")
+				Output("Unloading all cogs.")
+				for file in os.listdir("./Commands"):
+					if file.endswith(".py"):
+						try:
+							Output(f"unloading cog \"Commands.{file[:-3]}\".")
+							bot.unload_extension(f"Commands.{file[:-3]}")
+						except:
+							Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
 				try:
 					await ctx.message.delete()
 				except:
