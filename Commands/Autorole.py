@@ -29,11 +29,12 @@ class Autorole(commands.Cog):
     async def on_member_join(self, member):
         ARole: discord.role = None
         Guilds = Shared.Database.Load("Guilds.json")
-        if str(member.guild.id) in Guilds:
-            if Guilds[str(member.guild.id)]["AutoroleID"] and Guilds[str(member.guild.id)]["AutoroleID"] != None:
-                ARole = Guilds[str(member.guild.id)]["AutoroleID"]
-                ARole = member.guild.get_role(ARole)
-                await member.add_roles(ARole)
+        if "AutoroleID" in Guilds[str(member.guild.id)]:
+            if str(member.guild.id) in Guilds:
+                if Guilds[str(member.guild.id)]["AutoroleID"] and Guilds[str(member.guild.id)]["AutoroleID"] != None:
+                    ARole = Guilds[str(member.guild.id)]["AutoroleID"]
+                    ARole = member.guild.get_role(ARole)
+                    await member.add_roles(ARole)
 
     @commands.command(aliases=["SetAutorole"])
     async def setautorole(self, ctx, role: discord.Role = None):
