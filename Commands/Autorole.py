@@ -29,8 +29,8 @@ class Autorole(commands.Cog):
     async def on_member_join(self, member):
         ARole: discord.role = None
         Guilds = Shared.Database.Load("Guilds.json")
-        if "AutoroleID" in Guilds[str(member.guild.id)]:
-            if str(member.guild.id) in Guilds:
+        if str(member.guild.id) in Guilds:
+            if "AutoroleID" in Guilds[str(member.guild.id)]:
                 if Guilds[str(member.guild.id)]["AutoroleID"] and Guilds[str(member.guild.id)]["AutoroleID"] != None:
                     ARole = Guilds[str(member.guild.id)]["AutoroleID"]
                     ARole = member.guild.get_role(ARole)

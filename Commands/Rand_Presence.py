@@ -32,7 +32,7 @@ class Rand_Presence(commands.Cog):
         await self.randomPresanceChange()
 
     async def randomPresanceChange(self):
-        rand_watching = [f'for {Shared.Vars.prefix}', 'Dead By Daylight', 'the server', 'YouTube', 'Dark Souls Remastered', f'for {Shared.Vars.prefix}help', 'commands', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for urban', 'for you']
+        rand_watching = [f'for {Shared.Vars.prefix}', 'the server', f'for {Shared.Vars.prefix}help', 'commands', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for you', 'you', 'for commands']
         while not Shared.Vars.Stopping and not Shared.Vars.presance_overridden:
             await asyncio.sleep(Shared.Vars.Settings['Bot_Settings']['Rand_Presence']['Presence_Update_Tick'] / 1000)
             if not Shared.Vars.Stopping and not Shared.Vars.presance_overridden:
