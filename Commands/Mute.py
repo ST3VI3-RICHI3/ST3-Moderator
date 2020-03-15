@@ -36,13 +36,13 @@ class Mute(commands.Cog):
                         if str(member.guild.id) in Guilds:
                             if Guilds[str(member.guild.id)]["Mute_Ban_On_Leave"]:
                                 embed=discord.Embed(title="Ban", description=f"Ban from: {member.guild.name}", color=0xff0000)
-                                embed.add_field(name="Reason", value=f"You have been banned from {member.guild.name} for L.T.A.P (Leaving to avoid punishment). This ban is: perminant.", inline=False)
+                                embed.add_field(name="Reason", value=f"You have been banned from {member.guild.name} for LTAP (Leaving to avoid punishment).", inline=False)
                                 try:
                                     await member.send(embed=embed)
                                 except:
                                     pass
-                                Reason = "LTAP, left the server while muted."
-                                await member.ban(reason=Reason)
+                                Reason = "LTAP (Leaving To Avoid Punishment)."
+                                await member.ban(reason=Reason, delete_message_days=0)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -136,7 +136,7 @@ class Mute(commands.Cog):
             async def TimeMute(usr = user, time = 0):
                 if time != 0:
                     await asyncio.sleep(time)
-                    await Mute.unmute(self, ctx, user, True)
+                    asyncio.get_event_loop().create_task(Mute.unmute(self, ctx, usr, True))
             if str(user.id) in str(Shared.Vars.DBData):
                 if str(ctx.message.guild.id) in str(Shared.Vars.DBData[str(user.id)]):
                     if "Muted" in str(Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)]):
@@ -162,10 +162,10 @@ class Mute(commands.Cog):
                                     await user.remove_roles(r)
                             await user.add_roles(MRole)
                             msg = await ctx.send(f"Muted <@{str(user.id)}>")
+                            await TimeMute(user, time)
                             await asyncio.sleep(5)
                             await msg.delete()
                             await ctx.message.delete()
-                            await TimeMute(user, time)
                 else:
                     Shared.Vars.DBData[str(user.id)] = {}
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
@@ -257,8 +257,10 @@ class Mute(commands.Cog):
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)][0]["Muted"] = False
                             Shared.Database.dump()
                             await user.remove_roles(MRole)
+                            Roles: discord.Role = []
                             for r in Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)][0]["Old_Roles"]:
-                                await user.add_roles(ctx.message.guild.get_role(r))
+                                Roles.append(ctx.message.guild.get_role(r))
+                            await user.add_roles(*Roles)
                             if not invoked:
                                 msg = await ctx.send(f"Unmuted <@{user.id}>")
                                 await asyncio.sleep(5)
