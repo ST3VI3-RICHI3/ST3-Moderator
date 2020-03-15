@@ -50,6 +50,16 @@ while True:
 
 		Output("ST3-MODERATOR by \"ST3VI3 RICHI3#5015\"")
 		Output("\n\n    ST3-MODERATOR  Copyright (C) 2020  ST3VI3 RICHI3\n\n    This program comes with ABSOLUTELY NO WARRANTY.\n    This is free software, and you are welcome to redistribute it\n    under certain conditions.\n", Type="Copyright")
+		Output("Checking for updates.")
+		UpOut = os.popen("git pull").read()
+		if "already up to date." in UpOut.lower():
+			Output("Update found, restarting.")
+			os.system("bot.py")
+			exit(0)
+		else:
+			Output("No updates found.")
+		async def on_guild_integrations_update(guild):
+			print(guild)
 		Output("Bot loading  [0%]")
 
 		#--Init--#
