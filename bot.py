@@ -53,11 +53,11 @@ while True:
 		Output("Checking for updates.")
 		UpOut = os.popen("git pull").read()
 		if "already up to date." in UpOut.lower():
+			Output("No updates found.")
+		else:
 			Output("Update found, restarting.")
 			os.system("bot.py")
 			exit(0)
-		else:
-			Output("No updates found.")
 		async def on_guild_integrations_update(guild):
 			print(guild)
 		Output("Bot loading  [0%]")
