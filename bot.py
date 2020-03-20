@@ -75,11 +75,11 @@ while True:
 
 		#--Cogs--#
 
-
 		Output("Searching for and mounting cogs.")
-		percentinc = 25 / Cog_Count
+		CogL = Shared.API.GatherCogs(verbose=True)
+		percentinc = 25 / len(CogL)
 		Percent = 50
-		for Cog in Shared.API.GatherCogs(verbose=True):
+		for Cog in CogL:
 				try:
 					bot.load_extension(Cog)
 				except Exception as e:
