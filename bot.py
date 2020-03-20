@@ -75,28 +75,18 @@ while True:
 
 		#--Cogs--#
 
-		def Load_Cogs():
-			Output("Gathering cogs", End="")
-			Cog_Count = 0
-			for file in os.listdir("./Commands"):
-				if file.endswith(".py"):
-					Cog_Count += 1
-					Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}", End="")
-			Output(Premsg="\n", Msg="Loading cogs")
-			Output(f"Number of possible cogs found: {str(Cog_Count)}")
-			percentinc = 25 / Cog_Count
-			Percent = 50
-			for file in os.listdir("./Commands"):
-				if file.endswith(".py"):
-					try:
-						bot.load_extension(f"Commands.{file[:-3]}")
-					except Exception as e:
-						Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\", {e}")
-					Percent += percentinc
-					Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
-			Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
 
-		Load_Cogs()
+		Output("Searching for and mounting cogs.")
+		percentinc = 25 / Cog_Count
+		Percent = 50
+		for Cog in Shared.API.GatherCogs(verbose=True):
+				try:
+					bot.load_extension(Cog)
+				except Exception as e:
+					Output(Premsg="\n", Type="Error", Msg=f"Failed to mount cog \"{Cog}\", {e}")
+				Percent += percentinc
+				Output(Premsg="\r", Msg=f"Bot loaded [{int(Percent)}%]", End="")
+		Output(Premsg="\r", Msg=f"Bot loaded [75%]", End="")
 
 		#--------#
 

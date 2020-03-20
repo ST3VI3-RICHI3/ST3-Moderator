@@ -135,6 +135,20 @@ class Database:
 				json.dump(data, f, indent = 4)
 				f.close()
 
+class API:
+	def GatherCogs(Search_In=["Modules", "Commands"], verbose=False):
+		Cogs = []
+		for _dir in Search_In:
+			Cog_Count = 0
+			if verbose: Output(f"Searching folder \"{_dir}\"")
+			for file in os.listdir(f"/{_dir}"):
+				if file.endswith(".py"):
+					Cog_Count += 1
+					if verbose: Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}", End="")
+					Cogs.append(f"{_dir}.{str(file)[:-2]}")
+		return Cogs
+				
+
 class Vars:
 	IsLinux = False
 	Settings = {}
