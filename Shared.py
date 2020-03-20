@@ -145,7 +145,7 @@ class API:
 				if file.endswith(".py"):
 					Cog_Count += 1
 					if verbose: Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}", End="")
-					Cogs.append(f"{_dir}.{str(file)[:-2]}")
+					Cogs.append(f"{_dir}.{str(file)[:-3]}")
 			if verbose: Output(Premsg="\r", Msg=f"Gathering cogs: {str(Cog_Count)}")
 		return Cogs
 				
