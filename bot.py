@@ -185,14 +185,12 @@ while True:
 		async def Cog_Load(ctx, cog):
 			if str(ctx.message.author.id) == Shared.Vars.devs:
 				if cog == "*":
-					for file in os.listdir("./Commands"):
-						Output("Loading all cogs.")
-						if file.endswith(".py"):
-							try:
-								Output(f"loading cog \"Commands.{file[:-3]}\".")
-								bot.load_extension(f"Commands.{file[:-3]}")
-							except:
-								Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+					Output("Loading all cogs.")
+					for Cog in CogL:
+						try:
+							bot.load_extension(Cog)
+						except Exception as e:
+							Output(Premsg="\n", Type="Error", Msg=f"Failed to load cog \"{Cog}\", {e}")
 				else:
 					try:
 						Output(f"loading cog \"{cog}\".")
@@ -214,14 +212,13 @@ while True:
 			if str(ctx.message.author.id) == Shared.Vars.devs:
 				if cog == "*":
 					Output("Reloading all cogs.")
-					for file in os.listdir("./Commands"):
-						if file.endswith(".py"):
-							try:
-								Output(f"reloading cog \"Commands.{file[:-3]}\".")
-								bot.reload_extension(f"Commands.{file[:-3]}")
-								Output(f"reloaded \"Commands.{file[:-3]}\"")
-							except:
-								Output(Type="Error", Msg=f"Failed to reload cog \"Commands.{file[:-3]}\"")
+					for Cog in Shared.API.GatherCogs():
+						try:
+							Output(f"reloading cog \"{Cog}\".")
+							bot.reload_extension(Cog)
+							Output(f"reloaded \"{Cog}\"")
+						except:
+							Output(Type="Error", Msg=f"Failed to reload cog \"{Cog}\"")
 					await ctx.send("Reloaded all cogs!")
 					Output("Reload complete!")
 				else:
@@ -245,13 +242,12 @@ while True:
 			if str(ctx.message.author.id) == Shared.Vars.devs:
 				if cog == "*":
 					Output("Unloading all cogs.")
-					for file in os.listdir("./Commands"):
-						if file.endswith(".py"):
-							try:
-								Output(f"unloading cog \"Commands.{file[:-3]}\".")
-								bot.unload_extension(f"Commands.{file[:-3]}")
-							except:
-								Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
+					for Cog in Shared.API.GatherCogs():
+						try:
+							Output(f"unloading cog \"{Cog}\".")
+							bot.unload_extension(Cog)
+						except:
+							Output(f"Failed to unload cog \"{Cog}\"")
 				else:
 					try:
 						Output(f"Unloading cog \"{cog}\".")
@@ -276,13 +272,12 @@ while True:
 				Output("Restarting")
 				await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 				Output("Unloading all cogs.")
-				for file in os.listdir("./Commands"):
-					if file.endswith(".py"):
-						try:
-							Output(f"unloading cog \"Commands.{file[:-3]}\".")
-							bot.unload_extension(f"Commands.{file[:-3]}")
-						except:
-							Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
+				for Cog in Shared.API.GatherCogs():
+					try:
+						Output(f"unloading cog \"{Cog}\".")
+						bot.unload_extension(Cog)
+					except:
+						Output(f"Failed to unload cog \"{Cog}\"")
 				try:
 					await ctx.message.delete()
 				except:
@@ -331,13 +326,12 @@ while True:
 					else:
 						Output("Update complete, restarting.")
 						Output("Unloading all cogs.")
-						for file in os.listdir("./Commands"):
-							if file.endswith(".py"):
-								try:
-									Output(f"unloading cog \"Commands.{file[:-3]}\".")
-									bot.unload_extension(f"Commands.{file[:-3]}")
-								except:
-									Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
+						for Cog in Shared.API.GatherCogs():
+							try:
+								Output(f"unloading cog \"{Cog}\".")
+								bot.unload_extension(Cog)
+							except:
+								Output(f"Failed to unload cog \"{Cog}\"")
 						os.system("bot.py")
 						exit(0)
 			else:
@@ -352,13 +346,12 @@ while True:
 				await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 				Output("shutting down")
 				Output("Unloading all cogs.")
-				for file in os.listdir("./Commands"):
-					if file.endswith(".py"):
+				for Cog in Shared.API.GatherCogs():
 						try:
-							Output(f"unloading cog \"Commands.{file[:-3]}\".")
-							bot.unload_extension(f"Commands.{file[:-3]}")
+							Output(f"unloading cog \"{Cog}\".")
+							bot.unload_extension(Cog)
 						except:
-							Output(f"Failed to unload cog \"Commands.{file[:-3]}\"")
+							Output(f"Failed to unload cog \"{Cog}\"")
 				try:
 					await ctx.message.delete()
 				except:
