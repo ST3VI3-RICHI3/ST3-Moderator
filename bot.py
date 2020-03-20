@@ -58,8 +58,6 @@ while True:
 			Output("Update found, restarting.")
 			os.system("bot.py")
 			exit(0)
-		async def on_guild_integrations_update(guild):
-			print(guild)
 		Output("Bot loading  [0%]")
 
 		#--Init--#
