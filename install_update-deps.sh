@@ -1,2 +1,2 @@
-sudo pip install --upgrade pip
-sudo -m pip install --upgrade discord.py
+sudo python3 -m pip install --upgrade pip
+sudo python3 -m pip install --upgrade discord.py
