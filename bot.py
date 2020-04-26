@@ -201,7 +201,7 @@ while True:
 						await asyncio.sleep(5)
 						await msg.delete()
 					except:
-						Output(Type="Error", Msg=f"Failed to load cog \"Commands.{file[:-3]}\"")
+						Output(Type="Error", Msg=f"Failed to load cog \"Commands.{cog[:-3]}\"")
 						await ctx.message.delete()
 						msg = await ctx.send("There was an error loading that cog, please make sure the location and file is correct (eg: \"Commands.Help\")")
 						await asyncio.sleep(5)
