@@ -46,7 +46,7 @@ class Whois(commands.Cog):
                 await ctx.send(embed=embed)
            
         else:
-            await ctx.send(":x: {} You lack the required permissions to run this command".format(ctx.message.author.id))
+            await ctx.send(f":x: <@{ctx.message.author.id}> You lack the required permissions to run this command")
 
 def setup(bot):
     bot.add_cog(Whois(bot))
