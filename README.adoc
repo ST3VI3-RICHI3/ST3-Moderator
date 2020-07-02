@@ -1,43 +1,49 @@
 = ST3-Moderator
 
-ST3-Moderator is a discord bot programmed by @ST3VI3 RICHI3#5015, the bot was created with moderation in mind.
+ST3-Moderator is a discord bot programmed by @ST3VI3 RICHI3#5015. The bot is created with a focus on moderation.
+
+=== Breif history
 The current version of the bot is not the first write. ST3-Moderator had a previous life in which it ran 24/7. The previous bot died due to hard drive faliure. This bot, hopefully, will not fail in the same way.
 
+=== Description
 
-The bot aims to ease discord server moderation. This will be achived by not only alowing customisation (from self-hosted versions) but providing utilities such as spam protection (Not currently implemented), timed user mutes (Not currently implemented), etc.
+The bot aims to ease discord server moderation. This will be achived by not only alowing customisation (some customisation is exclusive self-hosted versions) but providing utilities such as spam protection (Not currently implemented), timed user mutes, etc.
 
 
 The bot can be added link:https://discordapp.com/api/oauth2/authorize?client_id=459014792464695317&permissions=8&scope=bot[here^]. +
 You can also link:https://discord.gg/fPNPq48[join^] the bot testing server.
 
-Current bot features::
+Current bot features: ::
     Admin:::
         . User management
             * Kick +
             Kicks a given user. +
-            Args: "User": discord.member (@mention / ID will work.), "reason".
+            Args: "User": `discord.member` (@mention / ID will work.), "reason".
             * Ban +
             Bans a given user. +
-            Args: "User": discord.member (@mention / ID will work.), "reason".
+            Args: "User": `discord.member` (@mention / ID will work.), "reason".
             * Role +
             Adds / removes a given role from a user. + 
-            Args: "func" Can be two values: "add" "remove", "User": discord.member (@mention / ID will work.), role: discord.Role (@role / role ID will work.).
+            Args: "func" Can be two values: "add" "remove", "User": `discord.member` (@mention / ID will work.), role: discord.Role (@role / role ID will work.).
             * Whois +
             Provides information on a given user. +
-            Args: "User": discord.member (@mention / ID will work.).
+            Args: "User": `discord.member` (@mention / ID will work.).
             * mute +
             Mutes a given user. +
-            Args: "User": discord.member (@mention / ID will work.).
+            Args: "User": `discord.member` (@mention / ID will work.).
             * unmute +
             Unmutes a given user. +
-            Args: "User": discord.member (@mention / ID will work.).
+            Args: "User": `discord.member` (@mention / ID will work.).
             * setmute +
             Sets the ID of the role to give a user upon mute. +
-            Args: "Role": discord.role (@mention / ID will work.).
+            Args: "Role": `discord.role` (@mention / ID will work.).
 			* confmute +
             Sets a property in "guilds.json". +
             Args: "option", "value". +
-			Options: "LTAP" (Leave To Avoid Punishment {true / false})
+			Options: "LTAP" (Leave To Avoid Punishment {true / false}).
+            * SetAutorole +
+            Sets a role to be automatically asigned when a new member joins. +
+            Args: "Role": `discord.role` (@mention / ID will work.).
         . Channel Utilities
             * C_Announce +
             mentions everyone in a channel. +
@@ -56,13 +62,13 @@ Current bot features::
         . Cogs
             * Cog_Load +
             Loads all cogs or loads a given cog. +
-            Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to load all cogs.
+            Args: "\*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to load all cogs.
             * Cog_Reload +
             Reloads all cogs or reloads a given cog. +
-            Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to reload all cogs.
+            Args: "\*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to reload all cogs.
             * Cog_Unload +
             Unloads all cogs or unloads a given cog. +
-            Args: "*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to Unload all cogs.
+            Args: "\*Cog" - Cog is the cog to load, referenced via "Commands.{Cog}" (EG: "Commands.Help"). "*" may be past to Unload all cogs.
         . Remote Control
             * Update +
             Updates the bot via this git repository +
