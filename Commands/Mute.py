@@ -150,7 +150,7 @@ class Mute(commands.Cog):
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
                             MemRoles = []
                             for r in user.roles:
-                                if ["@everyone", "booster"] not in str(r):
+                                if "@everyone" not in str(r):
                                     MemRoles.append(r.id)
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
                                 'Muted': True,
