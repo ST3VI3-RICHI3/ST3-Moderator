@@ -16,20 +16,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from __future__ import print_function
-import discord
+
 import asyncio
 import json
 import os
-import Shared
-from discord.ext import commands
-from time import sleep
+import os.path as path
 from datetime import datetime
+from time import sleep
+
+import discord
+from discord.ext import commands
+
+import Shared
 from Shared import Output
 
-if os.path.isfile("Logs/Latest.log"):
+if path.isfile("Logs/Latest.log"):
 	print("Preparing copy of \"latest.log\"")
 	LogNo = 1
-	while os.path.isfile(f"Logs/Log{LogNo}.log"):
+	while path.isfile(f"Logs/Log{LogNo}.log"):
 		LogNo += 1
 	print(f"Copying log to \"Log{LogNo}.log\"")
 	if Shared.Vars.IsLinux:
@@ -38,6 +42,16 @@ if os.path.isfile("Logs/Latest.log"):
 		print(os.popen(f"copy Logs\\Latest.log Logs\\Log{LogNo}.log").read())
 	print("Clearing latest log...")
 	os.remove("Logs/Latest.log")
+
+if not path.isfile("DB.json"):
+	DBfile = open("DB.json","w+")
+	DBfile.write("{}")
+	DBfile.close()
+
+if not path.isfile("Guilds.json"):
+	Gfile = open("Guilds.json","w+")
+	Gfile.write("{}")
+	Gfile.close()
 
 while True:
 	try:
