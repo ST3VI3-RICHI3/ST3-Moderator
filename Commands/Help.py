@@ -28,7 +28,7 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases="?", "Help")
+    @commands.command(aliases=["?", "Help"])
     async def help(self, ctx):
         DM = False
         embed=discord.Embed(title="Help", description=f"This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{Shared.Vars.prefix}', this list only applies to the server you sent the help command in and the roles you have in said server.", color=0x8080ff)
