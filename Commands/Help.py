@@ -47,7 +47,7 @@ class Help(commands.Cog):
                 embed.add_field(name="Setmute", value="Sets the role to give to a user on mute. Must be a @ mention of the role.", inline=False)
         except:
             DM = True
-        if str(ctx.message.author.id) == Shared.Vars.devs:
+        if str(ctx.message.author.id) in Shared.Vars.devs:
             embed.add_field(name="test", value="This tests if the bot is running & responsive.", inline=False)
             embed.add_field(name="status", value="Sets the bot's playing / watching / listening to status.", inline=False)
             embed.add_field(name="config", value="Sets provided property / setting for the bot.", inline=False)

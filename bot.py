@@ -197,7 +197,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Load(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Loading all cogs.")
 					for Cog in CogL:
@@ -223,7 +223,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Reload(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Reloading all cogs.")
 					for Cog in Shared.API.GatherCogs():
@@ -253,7 +253,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Unload(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Unloading all cogs.")
 					for Cog in Shared.API.GatherCogs():
@@ -281,7 +281,7 @@ while True:
 
 		@bot.command()
 		async def restart(ctx):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				Output("Restarting")
 				await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
@@ -308,7 +308,7 @@ while True:
 
 		@bot.command()
 		async def update(ctx, *, args: str="None"):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				Output("Attempting to perform update procedure.")
 				await bot.change_presence(activity=discord.Activity(name="bot updating...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
@@ -355,7 +355,7 @@ while True:
 
 		@bot.command()
 		async def shutdown(ctx):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 				Output("shutting down")
