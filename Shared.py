@@ -156,7 +156,7 @@ class Vars:
 	Token = ""
 	Stopping = False
 	presance_overridden = False
-	devs = "169501254899335168"
+	devs = ["169501254899335168", "287190213451710464"]
 	prefix = "//"
 	Version = ""
 	DBData = {}
