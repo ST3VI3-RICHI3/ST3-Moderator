@@ -19,6 +19,7 @@ from __future__ import print_function
 import os
 import json
 from datetime import datetime
+import platform
 
 def __init__():
 	Vars.Settings = SetLoad()
@@ -107,33 +108,26 @@ def SetLoad():
 
 class Database:
 
-	DatFile = "DB.json"
+	Datafile = "DB.json"
 
-	def Load(file=DatFile):
-		if file.endswith(".json"):
-			with open(file, "r") as DBFile:
-				DBData = json.load(DBFile)
-				DBFile.close()
-			return DBData
-		else:
-			Output(Type="Error", Msg="Cannot load database file, incorrect format.")
+	def Load(file=Datafile):
+		with open(file, "r") as DBFile:
+			DBData = json.load(DBFile)
+			DBFile.close()
+		return DBData
 	
-	def Refresh(file=DatFile):
-		if file.endswith(".json"):
-			with open(file, "r") as DBFile:
-				DBData = json.load(DBFile)
-				DBFile.close()
-			return DBData
-		else:
-			Output(Type="Error", Msg="Cannot refresh database file, incorrect format.")
+	def Refresh(file=Datafile):
+		with open(file, "r") as DBFile:
+			DBData = json.load(DBFile)
+			DBFile.close()
+		return DBData
 
-	def dump(file=DatFile, data=None):
+	def dump(file=Datafile, data=None):
 		if data == None:
 			data = Vars.DBData
-		if file.endswith(".json"):
-			with open(file, "w") as f:
-				json.dump(data, f, indent = 4)
-				f.close()
+		with open(file, "w") as f:
+			json.dump(data, f, indent = 4)
+			f.close()
 
 class API:
 	def GatherCogs(Search_In=["Commands", "Modules"], verbose=False):
@@ -150,13 +144,18 @@ class API:
 		return Cogs
 				
 
+
+if platform.system().lower() == "windows":
+	Vars.IsWindows = True
+
 class Vars:
-	IsLinux = False
+	IsWindows = False
 	Settings = {}
 	Token = ""
 	Stopping = False
-	presance_overridden = False
+	presence_overridden = False
 	devs = ["169501254899335168", "287190213451710464"]
 	prefix = "//"
 	Version = ""
 	DBData = {}
+	Debug = False

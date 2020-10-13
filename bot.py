@@ -30,6 +30,31 @@ from discord.ext import commands
 import Shared
 from Shared import Output
 
+if os.path.isfile("Logs") == False:
+		os.system("mkdir Logs")
+		if Shared.Vars.IsLinux:
+			os.system(">Logs/latest.log")
+		else:
+			os.system("type nul > Logs/latest.log")
+DateAndTime = f"{(str(datetime.now().day).zfill(2))}-{(str(datetime.now().month).zfill(2))}-{(str(datetime.now().year).zfill(2))}_{(str(datetime.now().hour).zfill(2))}-{(str(datetime.now().minute).zfill(2))}-{(str(datetime.now().second).zfill(2))}"
+if Shared.Vars.IsLinux:
+	os.system(f"cp Logs/latest.log {DateAndTime}.txt")
+else:
+	os.system(f"copy Logs/latest.log {DateAndTime}.txt")
+LogZip = zipfile.ZipFile(f"{DateAndTime}.zip", "w")
+LogZip.write(f"{DateAndTime}.txt")
+if Shared.Vars.Debug:
+   	LogZip.write("debug.log")
+LogZip.close()
+if Shared.Vars.IsLinux:
+	os.system(f"mv {DateAndTime}.zip Logs/")
+else:
+	os.system(f"move {DateAndTime}.zip Logs/")
+if Shared.Vars.IsLinux:
+	os.system(f"rm {DateAndTime}.txt")
+else:
+	os.system(f"del {DateAndTime}.txt")
+	
 if path.isfile("Logs/Latest.log"):
 	print("Preparing copy of \"latest.log\"")
 	LogNo = 1

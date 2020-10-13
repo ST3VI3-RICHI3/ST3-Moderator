@@ -18,6 +18,7 @@
 import discord
 import asyncio
 from discord.ext import commands
+import Shared
 
 class Whois(commands.Cog):
 
@@ -26,7 +27,7 @@ class Whois(commands.Cog):
 
     @commands.command()
     async def whois(self, ctx, member: discord.Member = None, type=None):
-        if ctx.message.author.guild_permissions.administrator or member == None or ctx.message.author.id == member.id:
+        if ctx.message.author.guild_permissions.administrator or member == None or ctx.message.author.id == member.id or ctx.author.id in Shared.Vars.devs:
             if member == None:
                 member = ctx.message.author
             if type != None:
@@ -46,7 +47,7 @@ class Whois(commands.Cog):
                 await ctx.send(embed=embed)
            
         else:
-            await ctx.send(f":x: <@{ctx.message.author.id}> You lack the required permissions to run this command")
+            await ctx.send(f":x: <@!{ctx.message.author.id}> You lack the required permissions to run this command")
 
 def setup(bot):
     bot.add_cog(Whois(bot))
