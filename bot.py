@@ -21,6 +21,7 @@ import asyncio
 import json
 import os
 import os.path as path
+import zipfile
 from datetime import datetime
 from time import sleep
 
