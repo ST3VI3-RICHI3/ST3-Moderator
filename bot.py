@@ -32,15 +32,15 @@ import Shared
 from Shared import Output
 
 
-if os.path.isfile("Logs") == False:
+if not os.path.isfile("Logs"):
 		os.system("mkdir Logs")
 		if Shared.Vars.IsLinux:
 			os.system(">Logs/latest.log")
 		else:
 			os.system("type nul > Logs/latest.log")
 
+"""
 DateAndTime = f"{(str(datetime.now().day).zfill(2))}-{(str(datetime.now().month).zfill(2))}-{(str(datetime.now().year).zfill(2))}_{(str(datetime.now().hour).zfill(2))}-{(str(datetime.now().minute).zfill(2))}-{(str(datetime.now().second).zfill(2))}"
-
 if Shared.Vars.IsLinux:
 	os.system(f"cp Logs/latest.log {DateAndTime}.txt")
 else:
@@ -58,7 +58,7 @@ if Shared.Vars.IsLinux:
 	os.system(f"rm {DateAndTime}.txt")
 else:
 	os.system(f"del {DateAndTime}.txt")
-
+"""
 if os.path.isfile("Logs/Latest.log"):
 	print("Preparing copy of \"latest.log\"")
 	LogNo = 1
