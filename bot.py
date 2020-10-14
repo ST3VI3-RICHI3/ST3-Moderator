@@ -38,7 +38,17 @@ if os.path.isfile("Logs") == False:
 			os.system(">Logs/latest.log")
 		else:
 			os.system("type nul > Logs/latest.log")
+
 DateAndTime = f"{(str(datetime.now().day).zfill(2))}-{(str(datetime.now().month).zfill(2))}-{(str(datetime.now().year).zfill(2))}_{(str(datetime.now().hour).zfill(2))}-{(str(datetime.now().minute).zfill(2))}-{(str(datetime.now().second).zfill(2))}"
+with open("temp_time.txt", "r+") as f:
+	f.write(DateAndTime)
+	DateAndTime = f.readline()
+	f.close()
+if Shared.Vars.IsLinux:
+	os.system("rm temp_time.txt")
+else:
+	os.system("del temp_time.txt")
+
 if Shared.Vars.IsLinux:
 	os.system(f"cp Logs/latest.log {DateAndTime}.txt")
 else:
