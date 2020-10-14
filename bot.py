@@ -31,6 +31,7 @@ from discord.ext import commands
 import Shared
 from Shared import Output
 
+
 if os.path.isfile("Logs") == False:
 		os.system("mkdir Logs")
 		if Shared.Vars.IsLinux:
@@ -55,11 +56,11 @@ if Shared.Vars.IsLinux:
 	os.system(f"rm {DateAndTime}.txt")
 else:
 	os.system(f"del {DateAndTime}.txt")
-	
-if path.isfile("Logs/Latest.log"):
+
+if os.path.isfile("Logs/Latest.log"):
 	print("Preparing copy of \"latest.log\"")
 	LogNo = 1
-	while path.isfile(f"Logs/Log{LogNo}.log"):
+	while os.path.isfile(f"Logs/Log{LogNo}.log"):
 		LogNo += 1
 	print(f"Copying log to \"Log{LogNo}.log\"")
 	if Shared.Vars.IsLinux:
@@ -69,10 +70,15 @@ if path.isfile("Logs/Latest.log"):
 	print("Clearing latest log...")
 	os.remove("Logs/Latest.log")
 
-if not path.isfile("DB.json"):
+if not os.path.isfile("DB.json"):
 	DBfile = open("DB.json","w+")
 	DBfile.write("{}")
 	DBfile.close()
+
+if not os.path.isfile("Guilds.json"):
+	Gfile = open("Guilds.json","w+")
+	Gfile.write("{}")
+	Gfile.close()
 
 if not path.isfile("Guilds.json"):
 	Gfile = open("Guilds.json","w+")
