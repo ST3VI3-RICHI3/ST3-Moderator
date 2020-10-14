@@ -43,7 +43,12 @@ def BIn(Msg: str, Type="Input", Premsg=""):
 		if not os.path.isfile("Logs"):
 			os.popen("mkdir Logs")
 			with open("Logs/Latest.log", "w") as Log:
-				Log.wriFalseettings.json") as FSettings:
+				Log.write(f"[{str(datetime.now())[:19]} | {Type}] {Msg}\n")
+
+def SetLoad():
+	if os.path.isfile("Settings.json"):
+		Output("Loading bot settings")
+		with open("Settings.json") as FSettings:
 			Settings = json.load(FSettings)
 			FSettings.close()
 		Info = Settings['Info']
