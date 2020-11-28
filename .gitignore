@@ -112,11 +112,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-
-TOKEN
-Owners.txt
-config.cfg
-Prefix_Override.txt
-DB.json
-Guilds.json
