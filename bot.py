@@ -113,8 +113,14 @@ while True:
 		Shared.__init__()
 
 		Output(Premsg="\r", Msg="Bot loading [25%]")
+        
+		intents = discord.Intents.default()
+		intents.guilds = True
+		intents.members = True
+		intents.messages = True
+		intents.presences = True
 
-		bot = commands.Bot(command_prefix=Shared.Vars.prefix)# This sets the prefix that the bot will use.
+		bot = commands.Bot(command_prefix=Shared.Vars.prefix, intents=intents)# This sets the prefix that the bot will use.
 		client = bot
 
 		bot.remove_command('help') #Removes the default discord help command
