@@ -24,17 +24,19 @@ from BotFuncs import Core
 from BotFuncs.Core import Manifest
 from BotFuncs.Core.Print import prt
 
+DBG = True #Debug mode
+
 prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
 
 if not os.path.isfile("SETTINGS_MANIFEST.ST3MDat"):
     prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Failed (Missing files)")
     prt("Generating manifest file... |", end="\r")
-    SetFiles = Manifest.Generate("SETTINGS_MANIFEST", ["SETTINGS_BASE.json", "USER_SETTINGS.json"])
+    SetFiles = Manifest.Generate("SETTINGS_MANIFEST", ["SETTINGS_BASE.json", "USER_SETTINGS.json"], Debug=DBG)
     prt("Generating manifest file... Done!")
 else:
     prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Passed!")
     prt("Reading manifest file... /", end="\r")
-    SetFiles = Manifest.Read("SETTINGS_MANIFEST")
+    SetFiles = Manifest.Read("SETTINGS_MANIFEST", Debug=DBG)
     prt("Reading manifest file... Done!")
 
 for Sfile in SetFiles:
