@@ -19,7 +19,6 @@ import discord
 import asyncio
 import random
 import Shared
-from Shared import Output
 from discord.ext import commands, tasks
 
 class Rand_Presence(commands.Cog):
@@ -33,16 +32,15 @@ class Rand_Presence(commands.Cog):
 
     async def randomPresanceChange(self):
         rand_watching = [f'for {Shared.Vars.prefix}', 'the server', f'for {Shared.Vars.prefix}help', 'commands', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers"]
-        while not Shared.Vars.Stopping and not Shared.Vars.presance_overridden:
+        while not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
             await asyncio.sleep(Shared.Vars.Settings['Bot_Settings']['Rand_Presence']['Presence_Update_Tick'] / 1000)
-            if not Shared.Vars.Stopping and not Shared.Vars.presance_overridden:
+            if not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
                 await self.bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 
     @commands.command()
     async def status(self, ctx, time, Type, *, Name):
-        devs = "169501254899335168"
-        if str(ctx.message.author.id) == devs:
-            Shared.Vars.presance_overridden = True
+        if str(ctx.message.author.id) == Shared.Vars.devs:
+            Shared.Vars.presence_overridden == True
             if Type == "playing":
                 Type = discord.ActivityType.playing
             elif Type == "watching":
@@ -65,10 +63,10 @@ class Rand_Presence(commands.Cog):
                 time = int(time)
                 await asyncio.sleep(time)
                 await self.bot.change_presence(activity=discord.Activity(name="for " + Shared.Vars.prefix, type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-                Shared.Vars.presance_overridden = False
+                Shared.Vars.presence_overridden = False
                 await randomPresanceChange()
             except:
-                Shared.Vars.presance_overridden = False
+                Shared.Vars.presence_overridden = False
                 await self.randomPresanceChange()
                 msg = ctx.send(":x: Invalid arg given: time.")
                 await asyncio.sleep(5)

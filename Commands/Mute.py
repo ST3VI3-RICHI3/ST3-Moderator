@@ -69,7 +69,7 @@ class Mute(commands.Cog):
                 if "Muted" in str(Shared.Vars.DBData[str(member.id)][str(member.guild.id)]):
                     if Shared.Vars.DBData[str(member.id)][str(member.guild.id)][0]["Muted"]:
                         for r in member.roles:
-                            if "@everyone" not in str(r):
+                            if "@everyone" not in str(r) and "Booster" not in str(r):
                                 await member.remove_roles(r)
                         await member.add_roles(MRole)
 
@@ -150,7 +150,7 @@ class Mute(commands.Cog):
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
                             MemRoles = []
                             for r in user.roles:
-                                if "@everyone" not in str(r):
+                                if "@everyone" not in str(r) and "Booster" not in str(r):
                                     MemRoles.append(r.id)
                             Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
                                 'Muted': True,
@@ -158,7 +158,7 @@ class Mute(commands.Cog):
                             })
                             Shared.Database.dump()
                             for r in user.roles:
-                                if "@everyone" not in str(r):
+                                if "@everyone" not in str(r) and "Booster" not in str(r):
                                     await user.remove_roles(r)
                             await user.add_roles(MRole)
                             msg = await ctx.send(f"Muted <@{str(user.id)}>")
@@ -171,7 +171,7 @@ class Mute(commands.Cog):
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
                     MemRoles = []
                     for r in user.roles:
-                        if "@everyone" not in str(r):
+                        if "@everyone" not in str(r) and "Booster" not in str(r):
                             MemRoles.append(r.id)
                     Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
                         'Muted': True,
@@ -179,7 +179,7 @@ class Mute(commands.Cog):
                     })
                     Shared.Database.dump()
                     for r in user.roles:
-                        if "@everyone" not in str(r):
+                        if "@everyone" not in str(r) and "Booster" not in str(r):
                             await user.remove_roles(r)
                     await user.add_roles(MRole)
                     msg = await ctx.send(f"Muted <@{str(user.id)}>")
@@ -192,7 +192,7 @@ class Mute(commands.Cog):
                 Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)] = []
                 MemRoles = []
                 for r in user.roles:
-                    if "@everyone" not in str(r):
+                    if "@everyone" not in str(r) and "Booster" not in str(r):
                         MemRoles.append(r.id)
                 Shared.Vars.DBData[str(user.id)][str(ctx.message.guild.id)].append({
                     'Muted': True,
@@ -200,7 +200,7 @@ class Mute(commands.Cog):
                 })
                 Shared.Database.dump()
                 for r in user.roles:
-                    if "@everyone" not in str(r):
+                    if "@everyone" not in str(r) and "Booster" not in str(r):
                         await user.remove_roles(r)
                 await user.add_roles(MRole)
                 msg = await ctx.send(f"Muted <@{str(user.id)}>")

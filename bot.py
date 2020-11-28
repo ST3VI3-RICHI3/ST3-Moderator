@@ -16,16 +16,49 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from __future__ import print_function
-import discord
+
 import asyncio
 import json
 import os
-import Shared
-from discord.ext import commands
-from time import sleep
+import os.path as path
+import zipfile
 from datetime import datetime
+from time import sleep
+
+import discord
+from discord.ext import commands
+
+import Shared
 from Shared import Output
 
+
+if not os.path.isfile("Logs"):
+		os.system("mkdir Logs")
+		if Shared.Vars.IsLinux:
+			os.system(">Logs/latest.log")
+		else:
+			os.system("type nul > Logs/latest.log")
+
+"""
+DateAndTime = f"{(str(datetime.now().day).zfill(2))}-{(str(datetime.now().month).zfill(2))}-{(str(datetime.now().year).zfill(2))}_{(str(datetime.now().hour).zfill(2))}-{(str(datetime.now().minute).zfill(2))}-{(str(datetime.now().second).zfill(2))}"
+if Shared.Vars.IsLinux:
+	os.system(f"cp Logs/latest.log {DateAndTime}.txt")
+else:
+	os.system(f"copy Logs/latest.log {DateAndTime}.txt")
+LogZip = zipfile.ZipFile(f"Logs/{DateAndTime}.zip", "w")
+LogZip.write(f"Logs/{DateAndTime}.txt")
+if Shared.Vars.Debug:
+   	LogZip.write("debug.log")
+LogZip.close()
+if Shared.Vars.IsLinux:
+	os.system(f"mv {DateAndTime}.zip Logs/")
+else:
+	os.system(f"move {DateAndTime}.zip Logs/")
+if Shared.Vars.IsLinux:
+	os.system(f"rm {DateAndTime}.txt")
+else:
+	os.system(f"del {DateAndTime}.txt")
+"""
 if os.path.isfile("Logs/Latest.log"):
 	print("Preparing copy of \"latest.log\"")
 	LogNo = 1
@@ -38,6 +71,21 @@ if os.path.isfile("Logs/Latest.log"):
 		print(os.popen(f"copy Logs\\Latest.log Logs\\Log{LogNo}.log").read())
 	print("Clearing latest log...")
 	os.remove("Logs/Latest.log")
+
+if not os.path.isfile("DB.json"):
+	DBfile = open("DB.json","w+")
+	DBfile.write("{}")
+	DBfile.close()
+
+if not os.path.isfile("Guilds.json"):
+	Gfile = open("Guilds.json","w+")
+	Gfile.write("{}")
+	Gfile.close()
+
+if not path.isfile("Guilds.json"):
+	Gfile = open("Guilds.json","w+")
+	Gfile.write("{}")
+	Gfile.close()
 
 while True:
 	try:
@@ -183,7 +231,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Load(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Loading all cogs.")
 					for Cog in CogL:
@@ -209,7 +257,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Reload(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Reloading all cogs.")
 					for Cog in Shared.API.GatherCogs():
@@ -239,7 +287,7 @@ while True:
 
 		@bot.command()
 		async def Cog_Unload(ctx, cog):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				if cog == "*":
 					Output("Unloading all cogs.")
 					for Cog in Shared.API.GatherCogs():
@@ -267,7 +315,7 @@ while True:
 
 		@bot.command()
 		async def restart(ctx):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				Output("Restarting")
 				await bot.change_presence(activity=discord.Activity(name="bot restarting...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
@@ -294,7 +342,7 @@ while True:
 
 		@bot.command()
 		async def update(ctx, *, args: str="None"):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				Output("Attempting to perform update procedure.")
 				await bot.change_presence(activity=discord.Activity(name="bot updating...", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
@@ -341,7 +389,7 @@ while True:
 
 		@bot.command()
 		async def shutdown(ctx):
-			if str(ctx.message.author.id) == Shared.Vars.devs:
+			if str(ctx.message.author.id) in Shared.Vars.devs:
 				Shared.Vars.Stopping = True
 				await bot.change_presence(activity=discord.Activity(name="Stopping.", type=discord.ActivityType.playing), status=discord.Status.do_not_disturb, afk=False)
 				Output("shutting down")
