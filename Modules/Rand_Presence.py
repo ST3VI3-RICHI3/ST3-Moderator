@@ -19,6 +19,7 @@ import discord
 import asyncio
 import random
 import Shared
+from datetime import datetime
 from discord.ext import commands, tasks
 
 class Rand_Presence(commands.Cog):
@@ -32,9 +33,13 @@ class Rand_Presence(commands.Cog):
 
     async def randomPresanceChange(self):
         rand_watching = [f'for {Shared.Vars.prefix}', 'the server', f'for {Shared.Vars.prefix}help', 'commands', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers"]
+        Christmas_rand_watching = [f'for {Shared.Vars.prefix}', 'the snow fall ❄️', f'for {Shared.Vars.prefix}help', 'christmas dinners ❄️', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers", "the turkey cook", "presents being opened ❄️", "snow ❄️"]
         while not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
             await asyncio.sleep(Shared.Vars.Settings['Bot_Settings']['Rand_Presence']['Presence_Update_Tick'] / 1000)
-            if not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
+            if datetime.month == 12:
+                if datetime.day == 25:
+                    await self.bot.change_presence(activity=discord.Activity(name=Christmas_rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+            elif not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
                 await self.bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 
     @commands.command()
