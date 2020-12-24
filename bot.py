@@ -22,27 +22,33 @@ import os
 import BotFuncs
 from BotFuncs import Core
 from BotFuncs.Core import Manifest
+from BotFuncs.Core import Settings
 from BotFuncs.Core.Print import prt
+import time
 
-DBG = True #Debug mode
+__DBG = True #Debug mode
 
 prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
 
 if not os.path.isfile("SETTINGS_MANIFEST.ST3MDat"):
     prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Failed (Missing files)")
     prt("Generating manifest file... |", end="\r")
-    SetFiles = Manifest.Generate("SETTINGS_MANIFEST", ["SETTINGS_BASE.json", "USER_SETTINGS.json"], Debug=DBG)
+    SetFiles = Manifest.Generate("SETTINGS_MANIFEST", ["SETTINGS_BASE.json", "USER_SETTINGS.json"], Debug=__DBG)
     prt("Generating manifest file... Done!")
 else:
     prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Passed!")
     prt("Reading manifest file... /", end="\r")
-    SetFiles = Manifest.Read("SETTINGS_MANIFEST", Debug=DBG)
+    SetFiles = Manifest.Read("SETTINGS_MANIFEST", Debug=__DBG)
     prt("Reading manifest file... Done!")
 
+
+__Settings = {}
 for Sfile in SetFiles:
     blank_length = len(Sfile) + 5
     prt(f"Reading settings file (\"{Sfile}\") |", end="\r")
-    Core.Settings.Read()
+    __Settings = Settings.Read(Sfile)
+    print(__Settings)
+    time.sleep(10)
     i = 0
     blank_str = ""
     while i!= blank_length:
@@ -52,9 +58,10 @@ for Sfile in SetFiles:
 prt(f"Reading settings files... Done!", end="\r")
 
 
-
 bot = commands.Bot(command_prefix="//")# This sets the prefix that the bot will use.
 bot.remove_command('help') #Removes the default discord help command
+
+prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
 
 @bot.event
 async def on_ready():
