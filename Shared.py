@@ -20,7 +20,7 @@
 #                                                         #
 #  Name: Shared                                           #
 #  Purpose: Communication between cogs & external files   #
-#  Intended version: REWRITE-2020.10.22                   #
+#  Intended version: ALL                                  #
 #                                                         #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -30,12 +30,12 @@ import json
 from datetime import datetime
 import platform
 
-class Cog():
+class Vars():
 
-    Msgs = {}
+    __Vars = {}
 
-    def SendMessage(self, message, sender, dest):
-        Msgs[dest][sender]["message"] = message
+    def SetVar(self, v, val):
+        self.__Vars[v] = val
 
-    def GetMessage(self, message, sender, dest):
-        pass
+    def GetVar(self, v):
+        return self.__Vars[v]

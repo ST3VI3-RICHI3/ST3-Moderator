@@ -25,8 +25,39 @@ from BotFuncs.Core import Manifest
 from BotFuncs.Core import Settings
 from BotFuncs.Core.Print import prt
 import time
+import zipfile
+import importlib
 
 __DBG = True #Debug mode
+
+
+for pplg in os.listdir("Plugins"):
+    print(pplg)
+    if os.path.isfile(f"Plugins/{pplg}"):
+        if pplg.lower().endswith("st3plg"):
+            with zipfile.ZipFile(f"Plugins/{pplg}", "r") as pf:
+                with pf.open("META", "r") as m:
+                    fd = bytes.decode(m.read()).split("\n")
+                    if fd[0].startswith("$ST3MOD_PLG"):
+                        fd.remove(fd[0])
+                        print("Plugin manifest")
+                        print("---------------")
+                        for line in fd:
+                            print(line)
+                        print("---------------")
+                    else:
+                        m.close()
+                pf.close()
+    else:
+        if os.path.isfile(f"Plugins/{pplg}/META"):
+            with open(f"Plugins/{pplg}/META", "r") as m:
+                fd = m.read().split("\n")
+                if fd[0].startswith("$ST3MOD_PLG"):
+                    fd.remove(fd[0])
+                    for line in fd:
+                        print(line)
+                else:
+                    m.close()
 
 prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
 
@@ -45,18 +76,20 @@ else:
 __Settings = {}
 for Sfile in SetFiles:
     blank_length = len(Sfile) + 5
-    prt(f"Reading settings file (\"{Sfile}\") |", end="\r")
-    __Settings = Settings.Read(Sfile)
-    print(__Settings)
-    time.sleep(10)
-    i = 0
-    blank_str = ""
-    while i!= blank_length:
-        blank_str = f"{blank_str} "
-        i += 1
-    prt(f"Reading settings file (\"{blank_str}", end="\r")
+    if os.path.isfile(Sfile) or Sfile == "SETTINGS_BASE.json":
+        prt(f"Reading settings file (\"{Sfile}\") |", end="\r")
+        __Settings = Settings.Read(Sfile)
+        print(__Settings)
+        i = 0
+        blank_str = ""
+        while i!= blank_length:
+            blank_str = f"{blank_str} "
+            i += 1
+        prt(f"Reading settings file (\"{blank_str}", end="\r")
+    else:
+        prt(f"Reading settings file (\"{Sfile}\") failed: File missing.", type="err")
 prt(f"Reading settings files... Done!", end="\r")
-
+Shared.Vars.SetVar(Shared.Vars, "Settings", __Settings)
 
 bot = commands.Bot(command_prefix="//")# This sets the prefix that the bot will use.
 bot.remove_command('help') #Removes the default discord help command
@@ -65,6 +98,6 @@ prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
 
 @bot.event
 async def on_ready():
-	Shared.Cog.SendMessage(None, "READY0", "00000000", "*")
+	prt("Bot ready.")
 
 #bot.run(None)
