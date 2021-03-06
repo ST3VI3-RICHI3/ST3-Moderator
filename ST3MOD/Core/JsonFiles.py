@@ -15,14 +15,21 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from __future__ import print_function
+import os
+import json
+from ST3MOD import Vars
 
-def prt(msg:str, type="inf", end="\n", log=True):
-    ostr = msg
-    if type.lower() == "inf":
-        ostr = f"[i] {msg}"
-    elif type.lower() == "err":
-        ostr = f"[x] {msg}"
-    else:
-        ostr = f"[{type}] {msg}"
-    print(ostr, end=end)
+def Read(jsonfile: str):
+    if os.path.isfile(jsonfile):
+        with open(jsonfile, "r") as sf:
+            S = json.load(sf)
+            sf.close()
+            return S
+    else: return False
+
+def dump(jsonfile: str):
+    if os.path.isfile(jsonfile):
+        with open(jsonfile, "r") as sf:
+            json.dump(sf, indent=4)
+            sf.close()
+    else: return False

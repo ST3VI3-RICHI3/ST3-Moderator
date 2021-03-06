@@ -15,27 +15,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-#~~~~~~~~~~~~~~~~~~~~~~~~FILE INFO~~~~~~~~~~~~~~~~~~~~~~~~#
-#                                                         #
-#  Name: Shared                                           #
-#  Purpose: Communication between cogs & external files   #
-#  Intended version: ALL                                  #
-#                                                         #
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
 from __future__ import print_function
-import os
-import json
-from datetime import datetime
-import platform
 
-class Vars():
-
-    __Vars = {}
-
-    def SetVar(self, v, val):
-        self.__Vars[v] = val
-
-    def GetVar(self, v):
-        return self.__Vars[v]
+def prt(msg:str, type="inf", start="", end="\n", log=True):
+    ostr = msg
+    if type.lower() == "inf":
+        ostr = f"{start}[Info] {msg}"
+    elif type.lower() == "err":
+        ostr = f"{start}[Error] {msg}"
+    else:
+        ostr = f"{start}[{type}] {msg}"
+    print(ostr, end=end)

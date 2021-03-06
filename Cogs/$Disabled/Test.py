@@ -1,5 +1,5 @@
 """
-	ST3-Moderator, a moderation bot for discord
+    ST3-Moderator, a moderation bot for discord
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
@@ -15,20 +15,23 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import json
+import discord
+import asyncio
+from discord.ext import commands
 
-def Read(setfile: str):
-    if setfile != "SETTINGS_BASE.json":
-        with open(setfile, "r") as sf:
-            S = json.load(sf)
-            sf.close()
-    else:
-        S = {}
-        S["META"] = {}
-        S["META"]["SVER"] = "1"
-        S["META"]["BVER"] = "1"
-        S["$UNIVERSAL"] = {}
-        S["$UNIVERSAL"]["_DEBUG"] = False
-        S["$UNIVERSAL"]["OS"] = 0
-        S["$UNIVERSAL"]["Prefix"] = "!"
-    return S
+class Test(commands.Cog):
+
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def test(self, ctx):
+        devs = "169501254899335168"
+        if str(ctx.message.author.id) in devs:
+            msg = await ctx.send(":ok_hand: I am working!")
+            await asyncio.sleep(5)
+            await ctx.message.delete()
+            await msg.delete()
+
+def setup(bot):
+    bot.add_cog(Test(bot))

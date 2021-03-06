@@ -17,87 +17,69 @@
 """
 import discord
 from discord.ext import commands
-import Shared
 import os
-import BotFuncs
-from BotFuncs import Core
-from BotFuncs.Core import Manifest
-from BotFuncs.Core import Settings
-from BotFuncs.Core.Print import prt
-import time
-import zipfile
-import importlib
+import ST3MOD
+from ST3MOD.Core.Print import prt
+from ST3MOD.Core import Settings
+from ST3MOD.Vars import VDict
 
-__DBG = True #Debug mode
+prt("Bot loading...")
 
+Settings.Load()
+print(VDict)
 
-for pplg in os.listdir("Plugins"):
-    print(pplg)
-    if os.path.isfile(f"Plugins/{pplg}"):
-        if pplg.lower().endswith("st3plg"):
-            with zipfile.ZipFile(f"Plugins/{pplg}", "r") as pf:
-                with pf.open("META", "r") as m:
-                    fd = bytes.decode(m.read()).split("\n")
-                    if fd[0].startswith("$ST3MOD_PLG"):
-                        fd.remove(fd[0])
-                        print("Plugin manifest")
-                        print("---------------")
-                        for line in fd:
-                            print(line)
-                        print("---------------")
-                    else:
-                        m.close()
-                pf.close()
-    else:
-        if os.path.isfile(f"Plugins/{pplg}/META"):
-            with open(f"Plugins/{pplg}/META", "r") as m:
-                fd = m.read().split("\n")
-                if fd[0].startswith("$ST3MOD_PLG"):
-                    fd.remove(fd[0])
-                    for line in fd:
-                        print(line)
-                else:
-                    m.close()
-
-prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
-
-if not os.path.isfile("SETTINGS_MANIFEST.ST3MDat"):
-    prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Failed (Missing files)")
-    prt("Generating manifest file... |", end="\r")
-    SetFiles = Manifest.Generate("SETTINGS_MANIFEST", ["SETTINGS_BASE.json", "USER_SETTINGS.json"], Debug=__DBG)
-    prt("Generating manifest file... Done!")
-else:
-    prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... Passed!")
-    prt("Reading manifest file... /", end="\r")
-    SetFiles = Manifest.Read("SETTINGS_MANIFEST", Debug=__DBG)
-    prt("Reading manifest file... Done!")
-
-
-__Settings = {}
-for Sfile in SetFiles:
-    blank_length = len(Sfile) + 5
-    if os.path.isfile(Sfile) or Sfile == "SETTINGS_BASE.json":
-        prt(f"Reading settings file (\"{Sfile}\") |", end="\r")
-        __Settings = Settings.Read(Sfile)
-        print(__Settings)
-        i = 0
-        blank_str = ""
-        while i!= blank_length:
-            blank_str = f"{blank_str} "
-            i += 1
-        prt(f"Reading settings file (\"{blank_str}", end="\r")
-    else:
-        prt(f"Reading settings file (\"{Sfile}\") failed: File missing.", type="err")
-prt(f"Reading settings files... Done!", end="\r")
-Shared.Vars.SetVar(Shared.Vars, "Settings", __Settings)
-
-bot = commands.Bot(command_prefix="//")# This sets the prefix that the bot will use.
+bot = commands.Bot(command_prefix=VDict["Prefix"])# This sets the prefix that the bot will use.
 bot.remove_command('help') #Removes the default discord help command
 
-prt("Checking for manifest file (\"SETTINGS_MANIFEST.ST3MDat\")... |", end="\r")
+if os.path.isdir("./Cogs"):
+    prt(f"Loading cogs [0/{len(os.listdir('./Cogs'))}]", type="Cog")
+
+    for cog in os.listdir("./Cogs"):
+        if cog.endswith(".py"):
+            try:
+                bot.load_extension(f"Cogs.{cog[:-3]}")
+            except Exception as e:
+                print(f"Failed loading extention \"Cogs/{cog[:-3]}\". Error, {e}")
+else:
+    prt("Cog directory not found, skipping cogs.")
+prt("Bot readying...", end="\r")
+
 
 @bot.event
 async def on_ready():
-	prt("Bot ready.")
+    prt("Bot ready.     ")
 
-#bot.run(None)
+#--COG COMMANDS--#
+
+@bot.command()
+async def cl(ctx, cog):
+    if ctx.author.id in VDict["Perms"]["devs"]:
+        try:
+            bot.load_extension(cog)
+            await ctx.send("Cog loaded.")
+        except Exception as e:
+            await ctx.send(f"Failed loading extention \"{cog}\". Error: `{e}`")
+
+@bot.command()
+async def crl(ctx, cog):
+    if ctx.author.id in VDict["Perms"]["devs"]:
+        try:
+            bot.unload_extension(cog)
+            bot.load_extension(cog)
+            await ctx.send("Cog reloaded.")
+        except Exception as e:
+            await ctx.send(f"Failed reloading extention \"{cog}\". Error: `{e}`")
+
+@bot.command()
+async def cul(ctx, cog):
+    if ctx.author.id in VDict["Perms"]["devs"]:
+        try:
+            bot.unload_extension(cog)
+            await ctx.send("Cog unloaded.")
+        except Exception as e:
+            await ctx.send(f"Failed unloading extention \"{cog}\". Error: `{e}`")
+
+#----------------#
+
+
+bot.run(ST3MOD.Vars.__TOKEN)
