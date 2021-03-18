@@ -1,5 +1,5 @@
 """
-	ST3-Moderator, a moderation bot for discord
+	Discord Bot Base, a base for discord bots
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import os
-import json
-from ST3MOD import Vars
-from ST3MOD.Core import JsonFiles
 
-def Load(setfile: str = "config.json"):
-    if os.path.isfile(setfile):
-        S = JsonFiles.Read(setfile)
+VDict = {}
+VDict["Prefix"] = ""
+VDict["Intents"] = []
+VDict["Perms"] = {}
+VDict["Perms"]["Dev"] = [169501254899335168]
 
-        if type(S) == bool:
-            return False
-        else:
-            if "token" in S.keys():
-                Vars.__TOKEN = S["token"]
-            
-            for prop in S.keys():
-                if prop == "token":
-                    pass
-                else:
-                    Vars.VDict[prop] = S[prop]
+Loaded_Cogs = []
+__TOKEN = None

@@ -18,8 +18,9 @@
 import discord
 import asyncio
 import random
-import Shared
 from discord.ext import commands, tasks
+from BotBase.Vars import VDict
+from BotBase.Core.Print import prt as print
 
 class Rand_Presence(commands.Cog):
 
@@ -28,19 +29,21 @@ class Rand_Presence(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        rand_watching = [f'for {VDict["Prefix"]}', 'the server', f'for {VDict["Prefix"]}help', 'commands', f'for messages starting with \'{VDict["Prefix"]}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers"]
+        await self.bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
         await self.randomPresanceChange()
 
     async def randomPresanceChange(self):
-        rand_watching = [f'for {Shared.Vars.prefix}', 'the server', f'for {Shared.Vars.prefix}help', 'commands', f'for messages starting with \'{Shared.Vars.prefix}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers"]
-        while not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
-            await asyncio.sleep(Shared.Vars.Settings['Bot_Settings']['Rand_Presence']['Presence_Update_Tick'] / 1000)
-            if not Shared.Vars.Stopping and not Shared.Vars.presence_overridden:
+        rand_watching = [f'for {VDict["Prefix"]}', 'the server', f'for {VDict["Prefix"]}help', 'commands', f'for messages starting with \'{VDict["Prefix"]}\'', 'for you', 'you', 'for commands', f"{len(self.bot.guilds)} servers"]
+        while not VDict['Rand_Presence']['presence_overridden']:
+            await asyncio.sleep(VDict['Rand_Presence']['Presence_Update_Tick'] / 1000)
+            if not VDict['Rand_Presence']['presence_overridden']:
                 await self.bot.change_presence(activity=discord.Activity(name=rand_watching[random.randint(0, len(rand_watching)-1)], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
 
     @commands.command()
     async def status(self, ctx, time, Type, *, Name):
-        if str(ctx.message.author.id) == Shared.Vars.devs:
-            Shared.Vars.presence_overridden == True
+        if str(ctx.message.author.id) == VDict['Perms']['Dev']:
+            VDict['Rand_Presence']['presence_overridden'] == True
             if Type == "playing":
                 Type = discord.ActivityType.playing
             elif Type == "watching":
@@ -54,19 +57,19 @@ class Rand_Presence(commands.Cog):
             else:
                 Type = discord.ActivityType.playing
             await self.bot.change_presence(activity=discord.Activity(name=Name, type=Type), status=discord.Status.online, afk=False)
-            Output(f"presance updated to: {str(Type)} {Name} ({time}s)")
+            print(f"presance updated to: {str(Type)} {Name} ({time}s)")
             try:
                 await ctx.message.delete()
             except:
-                Output(Type="Error", Msg="Was not able to delete status command.")
+                print(Type="Error", Msg="Was not able to delete status command.")
             try:
                 time = int(time)
                 await asyncio.sleep(time)
-                await self.bot.change_presence(activity=discord.Activity(name="for " + Shared.Vars.prefix, type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
-                Shared.Vars.presence_overridden = False
-                await randomPresanceChange()
+                await self.bot.change_presence(activity=discord.Activity(name="for " + VDict["Prefix"], type=discord.ActivityType.watching), status=discord.Status.online, afk=False)
+                VDict['Rand_Presence']['presence_overridden'] = False
+                await self.randomPresanceChange()
             except:
-                Shared.Vars.presence_overridden = False
+                VDict['Rand_Presence']['presence_overridden'] = False
                 await self.randomPresanceChange()
                 msg = ctx.send(":x: Invalid arg given: time.")
                 await asyncio.sleep(5)
@@ -77,4 +80,7 @@ class Rand_Presence(commands.Cog):
             await msg.delete()
 
 def setup(bot):
+    VDict['Rand_Presence'] = {}
+    VDict['Rand_Presence']['Presence_Update_Tick'] = 60000
+    VDict['Rand_Presence']['presence_overridden'] = False
     bot.add_cog(Rand_Presence(bot))

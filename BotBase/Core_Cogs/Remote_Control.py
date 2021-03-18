@@ -1,5 +1,5 @@
 """
-	ST3-Moderator, a moderation bot for discord
+	Discord Bot Base, a base for discord bots
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
@@ -15,21 +15,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import os
-import json
-from ST3MOD import Vars
 
-def Read(jsonfile: str):
-    if os.path.isfile(jsonfile):
-        with open(jsonfile, "r") as sf:
-            S = json.load(sf)
-            sf.close()
-            return S
-    else: return False
+import discord
+from discord.ext import commands
+from async_timeout import timeout
+from BotBase import Vars
+from BotBase.Vars import VDict
 
-def dump(jsonfile: str):
-    if os.path.isfile(jsonfile):
-        with open(jsonfile, "r") as sf:
-            json.dump(sf, indent=4)
-            sf.close()
-    else: return False
+class RemoteControl(commands.Cog):
+
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(aliases=["d.shutdown"])
+    async def DEV_SHUTDOWN(self, ctx):
+        if ctx.author.id in VDict["Perms"]["Dev"]:
+            for cog in Vars.Loaded_Cogs:
+                self.bot.unload_extension(cog)
+                exit()
+
+def setup(bot):
+    bot.add_cog(RemoteControl(bot))

@@ -1,5 +1,5 @@
 """
-	ST3-Moderator, a moderation bot for discord
+	Discord Bot Base, a base for discord bots
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
@@ -18,68 +18,51 @@
 import discord
 from discord.ext import commands
 import os
-import ST3MOD
-from ST3MOD.Core.Print import prt
-from ST3MOD.Core import Settings
-from ST3MOD.Vars import VDict
+import BotBase
+from BotBase import Vars
+from BotBase.Core.Print import prt as print
+from BotBase.Core import Settings
+from BotBase.Vars import VDict
+from BotBase.Core import Intents
 
-prt("Bot loading...")
-
+print("Bot initialising [phase 1/3]", end="\r")
 Settings.Load()
-print(VDict)
 
-bot = commands.Bot(command_prefix=VDict["Prefix"])# This sets the prefix that the bot will use.
+print("Bot initialising [phase 2/3]", end="\r")
+intents = discord.Intents.default()
+intents = Intents.SetIntents(intents, VDict["Intents"])
+bot = commands.Bot(command_prefix=VDict["Prefix"], intents=intents)# This sets the prefix that the bot will use.
 bot.remove_command('help') #Removes the default discord help command
 
-if os.path.isdir("./Cogs"):
-    prt(f"Loading cogs [0/{len(os.listdir('./Cogs'))}]", type="Cog")
+print("Bot initialising [phase 3/3]", end="\r")
+bot.load_extension(f"BotBase.Core_Cogs.Cog_Funcs")
+Vars.Loaded_Cogs.append("BotBase.Core_Cogs.Cog_Funcs")
+bot.load_extension(f"BotBase.Core_Cogs.Remote_Control")
+Vars.Loaded_Cogs.append("BotBase.Core_Cogs.Remote_Control")
 
+print("Bot initialising [Done]     ")
+
+if os.path.isdir("./Cogs"):
+    print(f"Loading cogs [0/{len(os.listdir('./Cogs'))}]", type="Cog", end="\r")
+    i = 0
     for cog in os.listdir("./Cogs"):
         if cog.endswith(".py"):
             try:
                 bot.load_extension(f"Cogs.{cog[:-3]}")
+                Vars.Loaded_Cogs.append(f"Cogs.{cog[:-3]}")
+                i += 1
+                print(f"Loading cogs [{i}/{len(os.listdir('./Cogs'))}]", type="Cog", end="\r")
             except Exception as e:
                 print(f"Failed loading extention \"Cogs/{cog[:-3]}\". Error, {e}")
+    Settings.Load()
+    print(f"Loading cogs [Done]                ", type="Cog",)
 else:
-    prt("Cog directory not found, skipping cogs.")
-prt("Bot readying...", end="\r")
+    print("Cog directory not found, skipping cogs.", type="Cog",)
 
+print("Bot readying...", end="\r")
 
 @bot.event
 async def on_ready():
-    prt("Bot ready.     ")
+    print("Bot ready.     ")
 
-#--COG COMMANDS--#
-
-@bot.command()
-async def cl(ctx, cog):
-    if ctx.author.id in VDict["Perms"]["devs"]:
-        try:
-            bot.load_extension(cog)
-            await ctx.send("Cog loaded.")
-        except Exception as e:
-            await ctx.send(f"Failed loading extention \"{cog}\". Error: `{e}`")
-
-@bot.command()
-async def crl(ctx, cog):
-    if ctx.author.id in VDict["Perms"]["devs"]:
-        try:
-            bot.unload_extension(cog)
-            bot.load_extension(cog)
-            await ctx.send("Cog reloaded.")
-        except Exception as e:
-            await ctx.send(f"Failed reloading extention \"{cog}\". Error: `{e}`")
-
-@bot.command()
-async def cul(ctx, cog):
-    if ctx.author.id in VDict["Perms"]["devs"]:
-        try:
-            bot.unload_extension(cog)
-            await ctx.send("Cog unloaded.")
-        except Exception as e:
-            await ctx.send(f"Failed unloading extention \"{cog}\". Error: `{e}`")
-
-#----------------#
-
-
-bot.run(ST3MOD.Vars.__TOKEN)
+bot.run(BotBase.Vars.__TOKEN)

@@ -1,5 +1,5 @@
 """
-	ST3-Moderator, a moderation bot for discord
+	Discord Bot Base, a base for discord bots
     Copyright (C) 2020  ST3VI3 RICHI3
 
     This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,20 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from __future__ import print_function
 
-def prt(msg:str, type="inf", start="", end="\n", log=True):
-    ostr = msg
-    if type.lower() == "inf":
-        ostr = f"{start}[Info] {msg}"
-    elif type.lower() == "err":
-        ostr = f"{start}[Error] {msg}"
-    else:
-        ostr = f"{start}[{type}] {msg}"
-    print(ostr, end=end)
+import os
+import json
+from BotBase import Vars
+
+def Read(jsonfile: str):
+    if os.path.isfile(jsonfile):
+        with open(jsonfile, "r") as sf:
+            S = json.load(sf)
+            sf.close()
+            return S
+    else: return False
+
+def dump(jsonfile: str, data):
+    with open(jsonfile, "w") as sf:
+        json.dump(data, sf, indent=4)
+    sf.close()

@@ -16,12 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import discord
-import os
-import json
 import asyncio
-import Shared
-from Shared import Output
 from discord.ext import commands
+from BotBase.Vars import VDict
 
 class Help(commands.Cog):
 
@@ -31,7 +28,7 @@ class Help(commands.Cog):
     @commands.command(aliases=["?", "Help"])
     async def help(self, ctx):
         DM = False
-        embed=discord.Embed(title="Help", description=f"This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{Shared.Vars.prefix}', this list only applies to the server you sent the help command in and the roles you have in said server.", color=0x8080ff)
+        embed=discord.Embed(title="Help", description=f"This is a list of commands for ST3-M0D3RAT0R, all commands are used with the prefix '{VDict['Prefix']}', this list only applies to the server you sent the help command in and the roles you have in said server.", color=0x8080ff)
         embed.add_field(name="Help", value="The generic help command, it brings this up.", inline=False)
         #embed.add_field(name="Info", value="Shows the version and changes.", inline=False)
         try:
@@ -47,7 +44,7 @@ class Help(commands.Cog):
                 embed.add_field(name="Setmute", value="Sets the role to give to a user on mute. Must be a @ mention of the role.", inline=False)
         except:
             DM = True
-        if str(ctx.message.author.id) in Shared.Vars.devs:
+        if ctx.message.author.id in VDict["Perms"]["Dev"]:
             embed.add_field(name="test", value="This tests if the bot is running & responsive.", inline=False)
             embed.add_field(name="status", value="Sets the bot's playing / watching / listening to status.", inline=False)
             embed.add_field(name="config", value="Sets provided property / setting for the bot.", inline=False)
@@ -58,8 +55,7 @@ class Help(commands.Cog):
             embed.add_field(name="restart", value="restarts the bot, this can also be used to update the bot.", inline=False)
             embed.add_field(name="shutdown", value="causes the bot's script to exit.", inline=False)
 
-        HelpSettings = Shared.Vars.Settings['Bot_Settings']['Help']
-        if HelpSettings['Send_To_DM']:
+        if VDict["Help"]["Send_To_DM"]:
             await ctx.author.send(embed=embed)
             if not DM:
                 msg = await ctx.send(":ok_hand: Check your DMs!")
@@ -77,4 +73,6 @@ class Help(commands.Cog):
                 DM = True
 
 def setup(bot):
+    VDict["Help"] = {}
+    VDict["Help"]["Send_To_DM"] = True
     bot.add_cog(Help(bot))

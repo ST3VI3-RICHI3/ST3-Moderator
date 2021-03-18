@@ -17,8 +17,7 @@
 """
 import discord
 import asyncio
-import Shared
-from Shared import Output
+from BotBase.Core.Print import prt as print
 from discord.ext import commands
 
 class Purge(commands.Cog):
@@ -39,7 +38,7 @@ class Purge(commands.Cog):
     async def purge_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument): await ctx.send(f"Missing argument (`{error}`).")
         elif isinstance(error, commands.BadArgument): await ctx.send(f"Bad argument (`{error}`).")
-        else: Output(Type="Error", Msg=f"Purge error, {str(error)}")
+        else: print(Type="Error", Msg=f"Purge error, {str(error)}")
 
 def setup(bot):
     bot.add_cog(Purge(bot))

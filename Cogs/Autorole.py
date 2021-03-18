@@ -16,9 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import discord
-import asyncio
-import Shared
 from discord.ext import commands
+from BotBase.Core import JsonFiles
 
 class Autorole(commands.Cog):
 
@@ -28,7 +27,7 @@ class Autorole(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         ARole: discord.role = None
-        Guilds = Shared.Database.Load("Guilds.json")
+        Guilds = JsonFiles.Load("Guilds.json")
         if str(member.guild.id) in Guilds:
             if "AutoroleID" in Guilds[str(member.guild.id)]:
                 if Guilds[str(member.guild.id)]["AutoroleID"] and Guilds[str(member.guild.id)]["AutoroleID"] != None:
@@ -39,29 +38,29 @@ class Autorole(commands.Cog):
     @commands.command(aliases=["SetAutorole"])
     async def setautorole(self, ctx, role: discord.Role = None):
         if ctx.message.author.guild_permissions.administrator:
-            Guilds = Shared.Database.Load("Guilds.json")
+            Guilds = JsonFiles.Load("Guilds.json")
             if str(ctx.message.guild.id) not in Guilds:
                 Guilds[str(ctx.message.guild.id)] = {}
                 Guilds[str(ctx.message.guild.id)]["Mute_Role"] = None
                 Guilds[str(ctx.message.guild.id)]["Mute_Ban_On_Leave"] = False
                 Guilds[str(ctx.message.guild.id)]["AutoroleID"] = None
-                Shared.Database.dump("Guilds.json", Guilds)
+                JsonFiles.dump("Guilds.json", Guilds)
             if Guilds[str(ctx.message.guild.id)]["AutoroleID"] == None:
                 if role == None:
                     await ctx.send(":x: Autorole is already disabled.")
                 else:
                     await ctx.send(":white_check_mark: Set aturole role.")
                     Guilds[str(ctx.message.guild.id)]["AutoroleID"] = role.id
-                    Shared.Database.dump("Guilds.json", Guilds)
+                    JsonFiles.dump("Guilds.json", Guilds)
             else:
                 if role == None:
                     await ctx.send(":white_check_mark: Disabled autorole.")
                     Guilds[str(ctx.message.guild.id)]["AutoroleID"] = None
-                    Shared.Database.dump("Guilds.json", Guilds)
+                    JsonFiles.dump("Guilds.json", Guilds)
                 else:
                     await ctx.send(":white_check_mark: Updated aturole role.")
                     Guilds[str(ctx.message.guild.id)]["AutoroleID"] = role.id
-                    Shared.Database.dump("Guilds.json", Guilds)
+                    JsonFiles.dump("Guilds.json", Guilds)
 
 
 def setup(bot):

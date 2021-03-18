@@ -18,12 +18,12 @@
 from typing import Set
 import discord
 import asyncio
-import ST3MOD
+import BotBase
 import os
-from ST3MOD.Core import JsonFiles
-from ST3MOD.Vars import VDict
+from BotBase.Core import JsonFiles
+from BotBase.Vars import VDict
 from discord.ext import commands
-from ST3MOD.Core import Settings
+from BotBase.Core import Settings
 
 class Mute(commands.Cog):
 
