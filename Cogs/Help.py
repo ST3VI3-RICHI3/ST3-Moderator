@@ -73,6 +73,12 @@ class Help(commands.Cog):
                 DM = True
 
 def setup(bot):
-    VDict["Help"] = {}
-    VDict["Help"]["Send_To_DM"] = True
+    if "Help" not in VDict.keys():
+        VDict["Help"] = {}
+        VDict["Help"]["Send_To_DM"] = True
+    elif type(VDict["Help"]) == dict:
+        if "Send_To_DM" not in VDict["Help"].keys():
+            VDict["Help"]["Send_To_DM"] = True
+        elif type(VDict["Help"]["Send_To_DM"]) == bool:
+            VDict["Help"]["Send_To_DM"] = True
     bot.add_cog(Help(bot))

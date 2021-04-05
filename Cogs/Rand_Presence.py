@@ -80,7 +80,21 @@ class Rand_Presence(commands.Cog):
             await msg.delete()
 
 def setup(bot):
-    VDict['Rand_Presence'] = {}
-    VDict['Rand_Presence']['Presence_Update_Tick'] = 60000
-    VDict['Rand_Presence']['presence_overridden'] = False
+    if "Rand_Presence" not in VDict.keys():
+        VDict["Rand_Presence"] = {}
+        VDict['Rand_Presence']['Presence_Update_Tick'] = 60000
+        VDict['Rand_Presence']['presence_overridden'] = False
+    elif type(VDict["Rand_Presence"]) == dict:
+        if "Presence_Update_Tick" not in VDict["Rand_Presence"].keys():
+            VDict['Rand_Presence']['Presence_Update_Tick'] = 60000
+        elif type(VDict["Rand_Presence"]["Presence_Update_Tick"]) == int:
+            VDict['Rand_Presence']['Presence_Update_Tick'] = 60000
+        if "Rand_List" not in VDict["Rand_Presence"].keys():
+            VDict['Rand_Presence']['Rand_List'] = 60000
+        elif type(VDict["Rand_Presence"]["Rand_List"]) == int:
+            VDict['Rand_Presence']['Rand_List'] = 60000
+        if "presence_overridden" not in VDict["Rand_Presence"]:
+            VDict['Rand_Presence']['presence_overridden'] = False
+        elif type(VDict["Rand_Presence"]["presence_overridden"]) == bool:
+            VDict['Rand_Presence']['presence_overridden'] = False
     bot.add_cog(Rand_Presence(bot))
