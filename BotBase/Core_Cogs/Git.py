@@ -25,38 +25,21 @@ from BotBase import Vars
 from BotBase.Vars import VDict
 from BotBase.Core.Print import prt as print
 
-class RemoteControl(commands.Cog):
+class GitControl(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["d.shutdown"])
-    async def DEV_SHUTDOWN(self, ctx):
+    @commands.command(aliases=["d.update"])
+    async def DEV_UPDATE(self, ctx):
         if ctx.author.id in VDict["Perms"]["Dev"]:
-            print("Bot shutting down.")
-            for cog in Vars.Loaded_Cogs:
-                self.bot.unload_extension(cog)
-            exit()
-
-    @commands.command(aliases=["d.restart"])
-    async def DEV_RESTART(self, ctx):
-        if ctx.author.id in VDict["Perms"]["Dev"]:
-            print("Bot restarting.")
-            for cog in Vars.Loaded_Cogs:
-                self.bot.unload_extension(cog)
+            print("Pulling from git.")
+            os.system("git pull")
             if platform.system().lower() == "windows":
                 os.system("start bot.py")
             else:
                 os.system("python bot.py")
             exit()
-    
-    @commands.command(aliases=["d.Rcon", "d.RCon", "d.rcon"])
-    async def DEV_REMOTE_CONSOLE(self, ctx, *, cmd: str):
-        if ctx.author.id in VDict["Perms"]["Dev"]:
-            CmdO = os.popen(cmd).read()
-            if CmdO != "": await ctx.send(f"Command returned: ```{str(CmdO)}```")
-            else: await ctx.send("Command returned no output.")
-            print(f"Rcon command (\"{cmd}\") returned: {str(CmdO)}")
 
 def setup(bot):
-    bot.add_cog(RemoteControl(bot))
+    bot.add_cog(GitControl(bot))
